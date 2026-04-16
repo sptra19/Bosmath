@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOSMATH KKN - Portal Belajar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & ROOT --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { background: #fafafa; color: #333; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* --- MODE GELAP (DARK MODE) --- */
+        body.dark-theme { background: #0f0f13; color: #f1f1f1; }
+        body.dark-theme .navbar { background: rgba(15, 15, 19, 0.85); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        body.dark-theme .info-galeri { background: #15151a; }
+        body.dark-theme .card-info { background: #1e1e24; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: transparent;}
+        body.dark-theme .card-info p { color: #aaa; }
+        body.dark-theme .card-info h4 { color: #ff80ab; }
+        body.dark-theme .auth-card { background: rgba(25, 25, 30, 0.95); border-color: #d81b60; color: #f1f1f1; }
+        body.dark-theme .auth-card h2, body.dark-theme .info-galeri h2 { color: #ff4081; }
+        body.dark-theme .form-group label { color: #ff80ab; }
+        body.dark-theme .form-group input, body.dark-theme .form-group select { background: #2a2a35; color: white; border-color: #ff4081; }
+        body.dark-theme .brand-logo { color: #fff; }
+        body.dark-theme .lightbox-content { background: #1e1e24; }
+        body.dark-theme .lightbox-text p { color: #aaa; }
+
+        /* --- NAVBAR MELAYANG --- */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 15px 50px;
+            background: rgba(228, 121, 164, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+        }
+        .brand-logo { font-size: 1.5rem; font-weight: 800; color: #d81b60; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        .brand-logo span { background: linear-gradient(135deg, #ff4081, #d81b60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .btn-dark-mode { background: #ffebee; color: #d81b60; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;}
+        .btn-dark-mode:hover { transform: rotate(15deg) scale(1.1); background: #f8bbd0; }
+        body.dark-theme .btn-dark-mode { background: #333; color: #ffb300; }
+        
+        .btn-login-nav { background: linear-gradient(135deg, #ff4081, #d81b60); color: white; padding: 10px 25px; border-radius: 30px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);}
+        .btn-login-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(216, 27, 96, 0.574); }
+
+        /* --- HERO SECTION --- */
+        .hero { position: relative; width: 100%; min-height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; padding-top: 80px;}
+        .background-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; filter: blur(15px); transform: scale(1.05); transition: all 1.5s ease-in-out; }
+.slide.aktif { opacity: 1; filter: blur(0); transform: scale(1); }
+        .bg-1 { background-image: url('dok11.jpeg'); } .bg-2 { background-image: url('dok22.jpeg'); } .bg-3 { background-image: url('dok33.jpeg'); }
+        
+        .dark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(216, 27, 96, 0.129) 0%, rgba(10, 10, 20, 0.9) 100%); z-index: 2; }
+        
+        .hero-content { position: relative; z-index: 3; text-align: center; color: white; max-width: 900px; padding: 20px; animation: fadeInUp 1s ease-out forwards; }
+        .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; letter-spacing: 2px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.3);}
+        .hero-content h1 { font-size: 4.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-content p { font-size: 1.2rem; line-height: 1.6; font-weight: 300; text-shadow: 0 5px 15px rgba(0,0,0,0.5); margin-bottom: 40px; color: #f8bbd0;}
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- GALERI INFO (6 KARTU & ZOOM ICON) --- */
+        .info-galeri { padding: 100px 5vw; text-align: center; background: #fffafb; flex-grow: 1; }
+        .info-galeri h2 { font-size: 2.5rem; color: #d81b60; margin-bottom: 15px; font-weight: 800; }
+        .info-galeri p.subtitle { color: #888; font-size: 1.1rem; margin-bottom: 50px; }
+        
+        .grid-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        
+        .card-info { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.4s; text-align: left; border: 1px solid #fce4ec; position: relative; cursor: pointer; overflow: hidden;}
+        .card-info:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(215, 14, 88, 0.736); border-color: transparent; }
+        
+        /* Ikon Zoom di tengah foto */
+        .img-container { position: relative; width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; aspect-ratio: 16/10; }
+        .card-info img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s;}
+        .zoom-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgb(223, 15, 91); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; opacity: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+        .card-info:hover img { transform: scale(1.05); filter: brightness(0.8); }
+        .card-info:hover .zoom-icon { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
+        .card-info h4 { color: #d81b60; font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; }
+        .card-info p { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        /* --- LIGHTBOX (MODAL ZOOM FOTO) --- */
+        .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: 0.3s ease; }
+        .lightbox-overlay.aktif { opacity: 1; pointer-events: all; }
+        .lightbox-content { max-width: 800px; width: 90%; background: white; border-radius: 20px; overflow: hidden; position: relative; transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; }
+        .lightbox-overlay.aktif .lightbox-content { transform: scale(1); }
+        .lightbox-content img { width: 100%; max-height: 60vh; object-fit: cover; }
+        .lightbox-text { padding: 25px 30px; text-align: center; }
+        .lightbox-text h3 { color: #d81b60; font-size: 1.6rem; margin-bottom: 10px; font-weight: 800;}
+        .lightbox-text p { color: #555; font-size: 1rem; line-height: 1.6;}
+        .close-lightbox { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; z-index: 10; transition: 0.3s; backdrop-filter: blur(5px);}
+        .close-lightbox:hover { background: #ff4081; transform: rotate(90deg); }
+
+        /* --- MODAL LOGIN --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: 0.4s ease; }
+        .modal-overlay.aktif { opacity: 1; pointer-events: all; }
+        .auth-container { max-width: 420px; width: 90%; text-align: center; position: relative; transform: scale(0.9); opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.aktif .auth-container { transform: scale(1); opacity: 1; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #ff4081; cursor: pointer; font-weight: bold; z-index: 10; background: rgba(255,64,129,0.1); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s;}
+        .close-btn:hover { background: #ff4081; color: white; transform: rotate(90deg);}
+        .auth-card { background: rgba(255, 255, 255, 0.95); border-radius: 25px; padding: 40px 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.5); }
+        .auth-card h2 { color: #d81b60; margin-bottom: 5px; font-size: 2rem; font-weight: 800; }
+        .auth-card p.subtitle { color: #ff80ab; margin-bottom: 25px; font-size: 0.95rem; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: #d81b60; font-size: 0.85rem; letter-spacing: 0.5px;}
+        .form-group input, .form-group select { width: 100%; padding: 14px 15px; border-radius: 12px; border: 2px solid #fce4ec; outline: none; background: #fffafb; font-size: 0.95rem; transition: 0.3s;}
+        .form-group input:focus, .form-group select:focus { border-color: #ff4081; background: white; box-shadow: 0 0 0 4px rgba(255, 64, 129, 0.1); }
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #ff4081, #d81b60); color: white; padding: 15px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);}
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(216, 27, 96, 0.5); }
+        .toggle-link { color: #d81b60; cursor: pointer; text-decoration: none; font-size: 0.85rem; margin-top: 20px; display: inline-block; font-weight: 700; transition: 0.3s;}
+        .toggle-link:hover { color: #ff4081; text-decoration: underline; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .hero-content h1 { font-size: 3rem; }
+            .hero-content p { font-size: 1rem; }
+            .auth-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand-logo">🚀 BOSMATH</div>
+        <div class="nav-actions">
+            <button class="btn-dark-mode" onclick="toggleDarkMode()" id="btn-theme">🌙</button>
+            <button class="btn-login-nav" onclick="bukaModal()">Masuk Portal</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="background-slider">
+            <div class="slide bg-1 aktif"></div>
+            <div class="slide bg-2"></div>
+            <div class="slide bg-3"></div>
+        </div>
+        <div class="dark-overlay"></div>
+        
+        <div class="hero-content">
+            <span class="hero-badge">PROGRAM PENGABDIAN KAMPUS MENGAJAR</span>
+            <h1>Mathematics is <span>Understanding</span></h1>
+            <p>Platform pembelajaran matematika digital interaktif yang didesain khusus untuk mempermudah guru dan siswa berkolaborasi.</p>
+
+            <button class="btn-login-nav" style="font-size: 1.2rem; padding: 15px 40px; border-radius: 40px;" onclick="bukaModal()">Mulai Belajar Sekarang</button>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="close-btn" onclick="tutupModal()">✕</div>
+                
+                <div id="login-box">
+                    <h2>Selamat Datang!</h2>
+                    <p class="subtitle">Akses modul BOSMATH Anda.</p>
+                    <form id="form-login">
+                        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="nama@email.com"></div>
+                        <div class="form-group"><label>Password</label><input type="password" id="loginPassword" required placeholder="••••••••"></div>
+                        <button type="submit" class="btn-submit" id="btn-login">Masuk Dashboard</button>
+                    </form>
+                    <p class="toggle-link" onclick="lupaSandi()" style="display:block; margin-top:15px; color:#ff80ab;">Lupa Password?</p>
+                    <p class="toggle-link" onclick="gantiKeDaftar()" style="display:block; margin-top:5px;">Belum punya akun? <span style="text-decoration: underline;">Daftar di sini</span></p>
+                </div>
+
+                <div id="register-box" class="hidden">
+                    <h2>Buat Akun</h2>
+                    <p class="subtitle">Bergabung dengan BOSMATH.</p>
+                    <form id="form-register">
+                        <div class="form-group"><label>Nama Lengkap</label><input type="text" id="regNama" required placeholder="Nama asli Anda"></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="regEmail" required placeholder="nama@email.com"></div>
+                        <div class="form-group">
+                            <label>Mendaftar Sebagai</label>
+                            <select id="regRole" required>
+                                <option value="siswa">Siswa / Peserta Belajar</option>
+                                <option value="guru">Guru / Tutor</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="grup-kode-guru" style="display: none;">
+                            <label>Kode Verifikasi Guru 🔒</label>
+                            <input type="text" id="regKodeGuru" placeholder="Masukkan 6 digit kode rahasia">
+                        </div>
+                        <div class="form-group"><label>Password</label><input type="password" id="regPassword" required minlength="6" placeholder="Minimal 6 karakter"></div>
+                        <button type="submit" class="btn-submit" id="btn-register">Daftar Sekarang</button>
+                    </form>
+                    <p class="toggle-link" onclick="gantiKeLogin()">Sudah punya akun? <span style="text-decoration: underline;">Login di sini</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightbox" onclick="tutupLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <span class="close-lightbox" onclick="tutupLightbox()">✕</span>
+            <img id="lb-img" src="" alt="Dokumentasi Zoom">
+            <div class="lightbox-text">
+                <h3 id="lb-judul">Judul</h3>
+                <p id="lb-desc">Deskripsi detail akan muncul di sini.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="info-galeri">
+        <h2>Jejak Langkah Kami</h2>
+        <p class="subtitle">Dokumentasi kegiatan dan fitur unggulan BOSMATH </p>
+         <p class="subtitle"> (Klik foto untuk memperbesar)</p>
+        
+        <div class="grid-wrapper">
+            <div class="card-info" onclick="bukaLightbox('dok.1.jpeg', 'Upacara Bendera', 'Bosowa School Makassar menjadi momen pembentukan karakter menanamkan disiplin, tanggung jawab, dan rasa kebersamaan dalam lingkungan belajar yang inspiratif.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok.1.jpeg" alt="Kegiatan 1">
+                </div>
+                <h4>Upacara Bendera</h4>
+                <p>Upacara bendera di Bosowa School Makassar menjadi momen pembentukan karakter menanamkan disiplin, tanggung jawab, dan rasa kebersamaan dalam lingkungan belajar yang inspiratif.</p>
+            </div>
+            
+            <div class="card-info" onclick="bukaLightbox('dok2.jpeg', 'Kegiatan pembelajaran', 'Menjelaskan persamaan kuadrat di kelas 10 dilakukan secara interaktif dan berbasis teknologi, sehingga mendorong siswa memahami konsep secara lebih mendalam melalui diskusi, visualisasi, dan pemecahan masalah.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok2.jpeg" alt="Kegiatan 2">
+                </div>
+                <h4>Kegiatan pembelajaran</h4>
+                <p>Menjelaskan persamaan kuadrat di kelas 10 dilakukan secara interaktif dan berbasis teknologi, sehingga mendorong siswa memahami konsep secara lebih mendalam melalui diskusi, visualisasi, dan pemecahan masalah.</p>
+            </div>
+            
+            <div class="card-info" onclick="bukaLightbox('dok3.jpeg', 'Kegiatan Piket Pagi', 'Kegiatan piket pagi di Bosowa School Makassar sebagai bagian dari pembinaan disiplin dan budaya sekolah. Kegiatan ini dilakukan melalui pemeriksaan barang bawaan siswa guna menciptakan lingkungan belajar yang aman, tertib, dan kondusif.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok3.jpeg" alt="Kegiatan 3">
+                </div>
+                <h4>Kegiatan Piket Pagi</h4>
+                <p>Kegiatan piket pagi di Bosowa School Makassar sebagai bagian dari pembinaan disiplin dan budaya sekolah. Kegiatan ini dilakukan melalui pemeriksaan barang bawaan siswa guna menciptakan lingkungan belajar yang aman, tertib, dan kondusif.</p>
+            </div>
+
+            <div class="card-info" onclick="bukaLightbox('dok4.jpeg', 'Kegiatan Salat Dhuha', 'Kegiatan salat dhuha yang dilaksanakan setiap hari sebagai bentuk pembinaan karakter spiritual siswa. Aktivitas ini bertujuan menumbuhkan kedisiplinan, ketenangan, serta nilai-nilai religius dalam kehidupan sehari-hari di lingkungan sekolah.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok4.jpeg" onerror="this.src='dok1.jpeg'" alt="Kegiatan 4">
+                </div>
+                <h4>Kegiatan Salat Dhuha</h4>
+                <p>Kegiatan salat dhuha yang dilaksanakan setiap hari sebagai bentuk pembinaan karakter spiritual siswa. Aktivitas ini bertujuan menumbuhkan kedisiplinan, ketenangan, serta nilai-nilai religius dalam kehidupan sehari-hari di lingkungan sekolah.</p>
+            </div>
+
+            <div class="card-info" onclick="bukaLightbox('dok5.jpeg', 'Pembelajaran Analisis Data Berbasis Teknologi', 'Kegiatan pembelajaran analisis data di kelas 12 yang berlangsung secara kolaboratif dan berbasis teknologi. Melalui kegiatan ini, siswa dilatih untuk mengolah, menafsirkan, dan menyajikan data secara kritis dalam menyelesaikan permasalahan nyata.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok5.jpeg" onerror="this.src='dok2.jpeg'" alt="Kegiatan 5">
+                </div>
+                <h4>Pembelajaran Analisis Data Berbasis Teknologi</h4>
+                <p>Kegiatan pembelajaran analisis data di kelas 12 yang berlangsung secara kolaboratif dan berbasis teknologi. Melalui kegiatan ini, siswa dilatih untuk mengolah, menafsirkan, dan menyajikan data secara kritis dalam menyelesaikan permasalahan nyata.</p>
+            </div>
+
+            <div class="card-info" onclick="bukaLightbox('dok6.jpeg', 'Pembelajaran Transformasi Geometri Berbasis Teknologi', 'Integrasi teknologi dalam pembelajaran transformasi geometri di kelas 11. Kegiatan ini bertujuan melatih ketajaman logika serta kreativitas siswa dalam memvisualisasikan perubahan struktur matematika di era digital.')">
+                <div class="img-container">
+                    <div class="zoom-icon">🔍</div>
+                    <img src="dok6.jpeg" onerror="this.src='dok3.jpeg'" alt="Kegiatan 6">
+                </div>
+                <h4>Pembelajaran Transformasi Geometri Berbasis Teknologi</h4>
+                <p>Integrasi teknologi dalam pembelajaran transformasi geometri di kelas 11. Kegiatan ini bertujuan melatih ketajaman logika serta kreativitas siswa dalam memvisualisasikan perubahan struktur matematika di era digital.</p>
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyD0VI7Ai1oRgIwl2UXNV3tE4jbYZO9XJpY", authDomain: "learninp.firebaseapp.com", projectId: "learninp", storageBucket: "learninp.firebasestorage.app", messagingSenderId: "283126632684", appId: "1:283126632684:web:925104a875661b2f5f95c9" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+
+        // --- LIGHTBOX ZOOM FOTO ---
+        window.bukaLightbox = (imgUrl, judul, deskripsi) => {
+            document.getElementById('lb-img').src = imgUrl;
+            document.getElementById('lb-judul').innerText = judul;
+            document.getElementById('lb-desc').innerText = deskripsi;
+            document.getElementById('lightbox').classList.add('aktif');
+        };
+        window.tutupLightbox = () => {
+            document.getElementById('lightbox').classList.remove('aktif');
+        };
+
+        // --- LOGIKA MUNCULKAN KODE GURU ---
+        document.getElementById('regRole').addEventListener('change', function() {
+            const grupKode = document.getElementById('grup-kode-guru');
+            const inputKode = document.getElementById('regKodeGuru');
+            if (this.value === 'guru') {
+                grupKode.style.display = 'block'; inputKode.required = true;
+            } else {
+                grupKode.style.display = 'none'; inputKode.required = false; inputKode.value = '';
+            }
+        });
+
+        // --- DARK MODE LOGIC ---
+        let isDark = localStorage.getItem('bosmath_theme') === 'dark';
+        if (isDark) document.body.classList.add('dark-theme');
+        document.getElementById('btn-theme').innerText = isDark ? '☀️' : '🌙';
+
+        window.toggleDarkMode = () => {
+            document.body.classList.toggle('dark-theme');
+            let themeNow = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('bosmath_theme', themeNow);
+            document.getElementById('btn-theme').innerText = themeNow === 'dark' ? '☀️' : '🌙';
+        };
+
+        // --- BACKGROUND SLIDER OTOMATIS ---
+        const slides = document.querySelectorAll('.slide'); let currentSlide = 0;
+        setInterval(() => { 
+            slides[currentSlide].classList.remove('aktif'); 
+            currentSlide = (currentSlide + 1) % slides.length; 
+            slides[currentSlide].classList.add('aktif'); 
+        }, 5000); 
+
+        // --- MODAL POPUP ---
+        const modal = document.getElementById('auth-modal'); const loginBox = document.getElementById('login-box'); const registerBox = document.getElementById('register-box');
+        window.bukaModal = () => { modal.classList.add('aktif'); gantiKeLogin(); };
+        window.tutupModal = () => { modal.classList.remove('aktif'); };
+        window.gantiKeLogin = () => { registerBox.classList.add('hidden'); loginBox.classList.remove('hidden'); };
+        window.gantiKeDaftar = () => { loginBox.classList.add('hidden'); registerBox.classList.remove('hidden'); };
+
+        // --- FITUR LUPA PASSWORD ---
+        window.lupaSandi = async () => {
+            let emailReset = prompt("Masukkan email Anda yang terdaftar:");
+            if (emailReset) {
+                try {
+                    await sendPasswordResetEmail(auth, emailReset);
+                    alert("✅ Link reset password telah dikirim ke " + emailReset + ".");
+                } catch (error) { alert("❌ Gagal mengirim email. Pastikan email Anda sudah benar."); }
+            }
+        };
+
+        // --- FIREBASE AUTH ---
+        document.getElementById('form-register').onsubmit = async (e) => {
+            e.preventDefault(); 
+            const roleDipilih = document.getElementById('regRole').value;
+            
+            // CEK KODE GURU
+            if (roleDipilih === 'guru') {
+                const kodeInput = document.getElementById('regKodeGuru').value;
+                const kodeValid = ['135678', '246123', '789456'];
+                if (!kodeValid.includes(kodeInput)) {
+                    alert("❌ KODE SALAH! Anda tidak diizinkan mendaftar sebagai Guru."); return;
+                }
+            }
+
+            const btn = document.getElementById('btn-register'); 
+            btn.innerText = "Mendaftarkan..."; btn.disabled = true;
+            
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('regEmail').value, document.getElementById('regPassword').value);
+                await setDoc(doc(db, "users", cred.user.uid), { nama: document.getElementById('regNama').value, role: roleDipilih });
+                alert("✅ Berhasil Daftar! Silakan login."); location.reload();
+            } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = "Daftar Sekarang"; }
+        };
+
+        document.getElementById('form-login').onsubmit = async (e) => {
+            e.preventDefault(); const btn = document.getElementById('btn-login'); btn.innerText = "Mengecek..."; btn.disabled = true;
+            try {
+                const cred = await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                const snap = await getDoc(doc(db, "users", cred.user.uid));
+                if (snap.exists()) {
+                    localStorage.setItem('sesiBosmath', JSON.stringify({ uid: cred.user.uid, nama: snap.data().nama, role: snap.data().role }));
+                    location.href = snap.data().role === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
+                }
+            } catch (err) { alert("Email atau Password Salah!"); } finally { btn.disabled = false; btn.innerText = "Masuk Dashboard"; }
+        };
+    </script>
+</body>
+</html>
