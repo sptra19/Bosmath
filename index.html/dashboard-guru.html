@@ -3,115 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEACHER BOSMATH - Dashboard Guru </title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>TEACHER - Dashboard Guru (Pro Edition)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* --- RESET & VARIABLES (PREMIUM PINK THEME) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #ffe4e1; min-height: 100vh; color: #333; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 250px 1fr; gap: 25px; }
-        .card { background: #fff; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1); border: 1px solid #ffb6c1; margin-bottom: 20px; }
-        h2 { color: #d81b60; margin-bottom: 15px; font-size: 1.2rem; border-bottom: 1px dashed #ffb6c1; padding-bottom: 5px; }
-        .sidebar-title { font-size: 1.5rem; color: #d81b60; font-weight: bold; text-align: center; margin-bottom: 20px; }
-        .nav-btn { display: block; width: 100%; background: #ff4081; color: white; padding: 12px; border-radius: 25px; border: none; cursor: pointer; margin-bottom: 10px; font-weight: bold; transition: 0.3s;}
-        .nav-btn:hover { filter: brightness(0.9); transform: translateY(-2px); }
-        .btn-logout { width: 100%; background: #c62828; color: white; padding: 12px; border-radius: 25px; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; }
-        .class-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-btn { background: #fff; border: 2px solid #ff4081; color: #ff4081; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: 600; white-space: nowrap; }
-        .tab-btn.active { background: #ff4081; color: white; }
-        .header-kelas { background: linear-gradient(to right, #ff4081, #d81b60); color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 15px; padding: 20px; margin-bottom: 20px;}
-        .input-style { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #f8bbd0; outline: none; margin-top: 5px; margin-bottom: 10px; }
-        .post-item { background: #fffafb; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #f8bbd0; position: relative; border-left: 5px solid #ff4081; }
-        .btn-hapus-post { position: absolute; top: 10px; right: 10px; background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.2em; }
-        .btn-download { display: inline-block; margin-top: 10px; padding: 5px 15px; background: #4caf50; color: white; border-radius: 15px; text-decoration: none; font-size: 0.8em; font-weight: bold; }
-        .siswa-badge { display: inline-block; background: #ffebee; color: #d81b60; padding: 5px 12px; border-radius: 15px; margin: 5px; font-size: 0.85em; font-weight: 600; border: 1px solid #ffb6c1; }
-        .badge-tipe { font-size: 0.7em; padding: 2px 8px; border-radius: 5px; color: white; font-weight: bold; text-transform: uppercase; }
-        .bg-rpp { background: #9c27b0; } .bg-soal { background: #2196f3; } .bg-game { background: #ff9800; } .bg-materi { background: #ff4081; }
+        
+        :root {
+            --pink-main: #ff4081;
+            --pink-dark: #f50057;
+            --pink-light: #ff80ab;
+            --pink-glow: rgba(255, 64, 129, 0.4);
+            --bg-color: #fdf2f6;
+            --surface-color: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 64, 129, 0.15);
+            --shadow-soft: 0 10px 30px rgba(255, 64, 129, 0.08);
+            --shadow-hover: 0 20px 40px rgba(255, 64, 129, 0.2);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body { background: var(--bg-color); color: var(--text-main); overflow-x: hidden; min-height: 100vh; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        /* --- SIDEBAR PREMIUM GLASS --- */
+        .sidebar { width: 280px; background: var(--surface-color); border-right: 1px solid var(--glass-border); height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; display: flex; flex-direction: column; padding: 30px 20px; overflow-y: auto; transition: 0.3s; box-shadow: var(--shadow-soft); }
+        .brand { text-align: center; margin-bottom: 40px; position: relative; }
+        .brand h1 { color: var(--text-main); font-size: 2.2rem; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+        .brand h1 span { background: linear-gradient(135deg, var(--pink-main), var(--pink-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand .badge-pro { font-size: 0.75rem; color: white; font-weight: 800; background: linear-gradient(135deg, var(--pink-main), var(--pink-dark)); padding: 5px 15px; border-radius: 20px; letter-spacing: 1.5px; box-shadow: 0 4px 15px var(--pink-glow); text-transform: uppercase;}
+        
+        .menu-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 800; margin-bottom: 15px; margin-top: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-btn { display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; background: transparent; color: var(--text-muted); padding: 14px 20px; border-radius: 16px; border: 2px solid transparent; cursor: pointer; margin-bottom: 12px; font-weight: 600; transition: var(--transition-bounce); text-decoration: none; }
+        .nav-btn:hover { background: var(--bg-color); color: var(--pink-main); border-color: var(--glass-border); transform: translateX(5px); }
+        
+        /* --- DAFTAR SISWA --- */
+        .student-list-container { background: var(--bg-color); border: 2px dashed var(--glass-border); border-radius: 20px; padding: 20px 15px; margin-top: 20px; flex-grow: 1; display: flex; flex-direction: column;}
+        .student-list-container h3 { font-size: 0.85rem; color: var(--pink-main); margin-bottom: 15px; text-align: center; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;}
+        
+        .siswa-list-wrapper { display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto; padding-right: 5px; }
+        .siswa-list-wrapper::-webkit-scrollbar { width: 5px; }
+        .siswa-list-wrapper::-webkit-scrollbar-track { background: transparent; }
+        .siswa-list-wrapper::-webkit-scrollbar-thumb { background: var(--pink-light); border-radius: 10px; }
+        
+        .siswa-badge { display: flex; align-items: center; gap: 12px; background: var(--surface-color); color: var(--text-main); padding: 10px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600; transition: var(--transition-bounce); box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid var(--glass-border); }
+        .siswa-badge:hover { transform: translateX(5px) scale(1.02); box-shadow: var(--shadow-soft); border-color: var(--pink-main); color: var(--pink-main);}
+        .siswa-avatar { width: 30px; height: 30px; background: linear-gradient(135deg, var(--pink-main), var(--pink-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; font-size: 0.8rem; box-shadow: 0 4px 10px var(--pink-glow); }
+
+        /* --- MAIN WRAPPER & TOPBAR --- */
+        .main-wrapper { margin-left: 280px; width: calc(100% - 280px); padding: 30px 40px; animation: fadeInUp 0.6s ease-out; }
+        .topbar { background: var(--glass-bg); backdrop-filter: blur(15px); padding: 20px 30px; border-radius: 24px; box-shadow: var(--shadow-soft); display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border: 1px solid var(--glass-border); }
+        .user-info { text-align: right; }
+        .user-info h4 { color: var(--text-main); font-size: 1.1rem; margin: 0; font-weight: 800; }
+        .user-info p { color: var(--pink-main); font-size: 0.85rem; margin: 0; font-weight: 600;}
+        .btn-logout { background: #ffebee; color: var(--pink-dark); border: none; padding: 10px 25px; border-radius: 30px; font-weight: 800; cursor: pointer; transition: var(--transition-bounce); font-size: 0.9rem; }
+        .btn-logout:hover { background: var(--pink-main); color: white; box-shadow: 0 5px 15px var(--pink-glow); transform: scale(1.05); }
+
+        /* --- CLASS TABS --- */
+        .class-tabs { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .class-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { background: var(--surface-color); border: 2px solid transparent; color: var(--text-muted); padding: 12px 28px; border-radius: 30px; cursor: pointer; font-weight: 700; white-space: nowrap; box-shadow: var(--shadow-soft); transition: var(--transition-bounce);}
+        .tab-btn:hover { color: var(--pink-main); transform: translateY(-3px); box-shadow: var(--shadow-hover);}
+        .tab-btn.active { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; box-shadow: 0 8px 20px var(--pink-glow); }
+
+        /* --- CARDS & PANELS --- */
+        .card-main { background: var(--surface-color); border-radius: 30px; padding: 35px; box-shadow: var(--shadow-soft); margin-bottom: 30px; border: 1px solid var(--glass-border); transition: var(--transition-bounce); }
+        .card-main:hover { box-shadow: var(--shadow-hover); }
+        
+        .header-kelas { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 30px; padding: 40px 45px; margin-bottom: 30px; box-shadow: 0 15px 35px var(--pink-glow); position: relative; overflow: hidden; }
+        .header-kelas::before { content: ''; position: absolute; right: -50px; top: -50px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none; filter: blur(20px);}
+        
+        .kode-badge { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 10px 25px; border-radius: 20px; font-family: monospace; letter-spacing: 4px; font-size: 1.5rem; font-weight: 800; display: inline-block; margin-top: 10px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+        
+        /* --- FORMS & INPUTS --- */
+        .form-label { font-size: 0.85rem; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 15px; margin-bottom: 8px;}
+        .input-style { width: 100%; padding: 16px 20px; border-radius: 16px; border: 2px solid transparent; outline: none; margin-bottom: 15px; background: var(--bg-color); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 500; transition: all 0.3s ease; color: var(--text-main); box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);}
+        .input-style:focus { border-color: var(--pink-main); background: var(--surface-color); box-shadow: 0 0 0 4px var(--pink-glow); transform: translateY(-2px);}
+        
+        /* --- POST ITEMS (GLASS EFFECT) --- */
+        .post-item { background: var(--surface-color); padding: 25px; border-radius: 24px; margin-bottom: 20px; border: 1px solid var(--glass-border); position: relative; transition: var(--transition-bounce); box-shadow: var(--shadow-soft); border-left: 6px solid var(--pink-main); }
+        .post-item:hover { transform: translateY(-5px) scale(1.01); box-shadow: var(--shadow-hover); border-color: var(--pink-light); }
+        
+        .btn-hapus-item { position: absolute; top: 20px; right: 20px; background: #ffebee; border: none; color: var(--pink-dark); cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: var(--transition-bounce); font-weight: bold; font-size: 1.2rem;}
+        .btn-hapus-item:hover { background: var(--pink-main); color: white; transform: rotate(90deg) scale(1.1); box-shadow: 0 5px 15px var(--pink-glow);}
+        
+        .badge-tipe { font-size: 0.75em; padding: 6px 15px; border-radius: 20px; color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        /* Semua badge menggunakan variasi Pink/Magenta agar 70% pink tercapai */
+        .bg-rpp { background: linear-gradient(135deg, #f50057, #c51162); } 
+        .bg-soal { background: linear-gradient(135deg, #ff4081, #f50057); } 
+        .bg-game { background: linear-gradient(135deg, #ff80ab, #ff4081); } 
+        .bg-materi { background: linear-gradient(135deg, #e91e63, #c2185b); } 
+        .bg-pengumuman { background: linear-gradient(135deg, #f06292, #d81b60); } 
+        
+        /* --- BUTTONS --- */
+        .btn-excel { background: linear-gradient(135deg, #ff4081 0%, #f50057 100%); color: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px var(--pink-glow); transition: var(--transition-bounce); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; text-transform: uppercase;}
+        .btn-excel:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 64, 129, 0.6); }
+        
+        .btn-lock { background: rgba(255,255,255,0.9); color: var(--pink-dark); border: none; padding: 12px 25px; border-radius: 30px; font-weight: 800; cursor: pointer; transition: var(--transition-bounce); box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
+        .btn-lock:hover { transform: scale(1.05); background: white; color: var(--pink-main);}
+        
+        .btn-kirim { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; border: none; padding: 18px 30px; border-radius: 16px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1.1rem; transition: var(--transition-bounce); box-shadow: 0 10px 25px var(--pink-glow); margin-top: 15px; letter-spacing: 1px; text-transform: uppercase;}
+        .btn-kirim:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 64, 129, 0.5); filter: brightness(1.1);}
+
+        .grid-2-col { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; align-items: start;}
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1100px) { 
+            .app-container { flex-direction: column; } 
+            .sidebar { position: relative; width: 100%; height: auto; padding: 20px; border-radius: 0 0 30px 30px; box-shadow: var(--shadow-soft); margin-bottom: 20px; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between;} 
+            .brand { margin-bottom: 0; }
+            .menu-label, .student-list-container { display: none; }
+            .nav-btn { width: auto; margin-bottom: 0; padding: 10px 15px;}
+            .main-wrapper { margin-left: 0; width: 100%; padding: 10px 20px 40px 20px; } 
+            .grid-2-col { grid-template-columns: 1fr; } 
+            .header-kelas { flex-direction: column; gap: 20px; text-align: center; } 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
+        
         <div class="sidebar">
-            <div class="card">
-                <div class="sidebar-title">TEACHER</div>
-                <p style="text-align: center; font-size: 0.8em; margin-bottom: 15px;">👤 <b id="nama-guru">...</b></p>
-                
-                <button class="nav-btn" style="background: #2196f3;" onclick="bukaArsipPribadi()">📁 Arsip Modul (Private)</button>
-                <button class="nav-btn" onclick="window.open('https://www.geogebra.org/classic', '_blank')">📐 Buka GeoGebra</button>
-                <button class="nav-btn" style="background: #864cbf;" onclick="window.open('https://quizizz.com/admin', '_blank')">🎯 Buka Quizizz</button>
-                
-                <button class="btn-logout" onclick="prosesLogout()">🚪 Keluar</button>
+            <div class="brand">
+                <h1>BOSMATH</h1>
+                <span class="badge-pro">Teacher Pro 🚀</span>
             </div>
-            <div class="card" id="card-siswa" style="display: none;">
-                <h2>👥 Siswa Terdaftar</h2>
+            
+            <div style="width: 100%;">
+                <p class="menu-label">Menu Utama</p>
+                <button class="nav-btn" onclick="bukaArsipPribadi()">📁 <span>Arsip Modul Private</span></button>
+                <button class="nav-btn" onclick="window.open('https://www.geogebra.org/classic', '_blank')">📐 <span>Buka GeoGebra</span></button>
+                <button class="nav-btn" onclick="window.open('https://quizizz.com/admin', '_blank')">🎯 <span>Panel Quizizz</span></button>
+            </div>
+
+            <div class="student-list-container" id="card-siswa" style="display: none;">
+                <h3>👥 Daftar Siswa</h3>
                 <div id="list-siswa-kelas"></div>
             </div>
         </div>
 
-        <div class="main-content">
+        <div class="main-wrapper">
+            <div class="topbar">
+                <div>
+                    <h2 style="color: var(--text-dark); font-size: 1.8rem; margin:0; font-weight: 900; letter-spacing: -0.5px;">Ruang Kerja Guru</h2>
+                    <p style="color: var(--text-muted); font-size: 1rem; margin:0; font-weight: 500;">Kelola kelas, materi, dan evaluasi nilai dengan mudah.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 25px;">
+                    <div class="user-info">
+                        <h4 id="nama-guru">Memuat...</h4>
+                        <p>Guru / Tutor KKN</p>
+                    </div>
+                    <button class="btn-logout" onclick="prosesLogout()">Keluar</button>
+                </div>
+            </div>
+
             <div class="class-tabs" id="container-kelas">
-                <button class="tab-btn" onclick="buatKelasBaru()">+ Buat Kelas Baru</button>
+                <button class="tab-btn" onclick="buatKelasBaru()">✨ Buat Kelas Baru</button>
             </div>
 
             <div id="area-kerja" style="display: none;">
                 <div class="header-kelas">
                     <div>
-                        <h3 id="display-kelas" style="font-size: 1.5rem;"></h3>
-                        <p>KODE AKSES: <b id="display-kode" style="letter-spacing: 2px; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 5px;"></b></p>
+                        <p style="margin:0; font-size:1rem; opacity:0.9; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Pengaturan Kelas Aktif</p>
+                        <h3 id="display-kelas" style="font-size: 2.8rem; margin:5px 0; font-weight:900; text-shadow: 0 5px 15px rgba(0,0,0,0.2); letter-spacing: -1px;">Nama Kelas</h3>
+                        <span class="kode-badge" id="display-kode">XXXXXX</span>
+                        <button onclick="salinKode()" style="background:rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); border-radius: 15px; cursor:pointer; font-size:1.2rem; padding: 10px 15px; margin-left:15px; transition:var(--transition-bounce); backdrop-filter: blur(5px); color: white; font-weight: 800;" title="Salin Kode" onmouseover="this.style.background='rgba(255,255,255,0.4)'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='scale(1)'">📋 Copy</button>
                     </div>
-                    <button onclick="hapusKelasTotal()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer;">🗑️ Hapus Kelas</button>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <button id="btn-lock" class="btn-lock" onclick="toggleKunciKelas()">🔓 Terbuka</button>
+                        <button onclick="hapusKelasTotal()" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 25px; border-radius: 30px; font-weight: 800; cursor: pointer; transition: var(--transition-bounce); backdrop-filter: blur(5px);" onmouseover="this.style.background='var(--pink-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='scale(1)'">🗑️ Hapus Kelas</button>
+                    </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="grid-2-col">
+                    
                     <div>
-                        <div class="card">
-                            <h2>📝 Posting Materi / Tugas</h2>
-                            <label>Kategori Postingan</label>
+                        <div class="card-main">
+                            <h2 style="font-size: 1.5rem; margin-bottom: 25px; color: var(--text-dark); display: flex; align-items: center; gap: 10px; font-weight: 900;">📝 <span>Buat Postingan Baru</span></h2>
+                            
+                            <label class="form-label">Kategori Postingan</label>
                             <select id="input-tipe" class="input-style">
                                 <option value="materi">📖 Materi Belajar</option>
                                 <option value="rpp">📁 RPP / Modul (Publik)</option>
-                                <option value="soal">📝 Bank Soal</option>
-                                <option value="game">🎮 Link Quizizz / Wordwall</option>
+                                <option value="soal">📝 Bank Soal / Tugas</option>
+                                <option value="game">🎮 Link Quizizz / Game</option>
+                                <option value="pengumuman">📢 Pengumuman Mading</option>
                             </select>
-
-                            <label>Judul</label><input type="text" id="input-judul" class="input-style">
-                            <label>Deskripsi / Link Game</label><textarea id="input-deskripsi" class="input-style" rows="3"></textarea>
-                            <label>Lampiran File (PDF/Gambar)</label><input type="file" id="input-file" class="input-style">
-                            <button class="nav-btn" id="btn-kirim" onclick="kirimPostingan()" style="margin-top: 10px;">🚀 Kirim ke Kelas</button>
+                            
+                            <label class="form-label">Judul Materi / Tugas</label>
+                            <input type="text" id="input-judul" class="input-style" placeholder="Masukkan judul yang menarik...">
+                            
+                            <label class="form-label">Deskripsi Lengkap</label>
+                            <textarea id="input-deskripsi" class="input-style" rows="4" placeholder="Tulis instruksi atau penjelasan di sini..."></textarea>
+                            
+                            <label class="form-label">Tenggat Waktu (Opsional)</label>
+                            <input type="datetime-local" id="input-deadline" class="input-style" title="Kosongkan jika tidak ada batas waktu">
+                            
+                            <label class="form-label">Lampiran File (PDF/Gambar - Maks 10MB)</label>
+                            <input type="file" id="input-file" class="input-style" accept=".pdf, image/*" style="padding: 12px 20px;">
+                            
+                            <button class="btn-kirim" id="btn-kirim" onclick="kirimPostingan()">🚀 Publikasikan ke Kelas</button>
                         </div>
-                        <div class="card">
-                            <h2>📋 Riwayat Materi Kelas</h2>
+
+                        <div class="card-main">
+                            <h2 style="font-size: 1.5rem; margin-bottom: 25px; color: var(--text-dark); font-weight: 900;">📋 Timeline Postingan</h2>
                             <div id="daftar-postingan"></div>
                         </div>
                     </div>
 
                     <div>
-                        <div class="card">
-                            <h2>📥 Tugas Masuk & Penilaian</h2>
+                        <div class="card-main">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; border-bottom: 2px dashed var(--glass-border); padding-bottom: 20px;">
+                                <div>
+                                    <h2 style="margin:0; font-size: 1.5rem; color: var(--text-dark); font-weight: 900;">📥 Meja Penilaian</h2>
+                                    <p style="margin:5px 0 0 0; font-size:0.95rem; color:var(--text-muted); font-weight: 500;">Pantau dan beri nilai tugas siswa.</p>
+                                </div>
+                                <button class="btn-excel" onclick="unduhRekapNilai()">📊 Export Excel</button>
+                            </div>
+                            
+                            <label class="form-label">Filter Berdasarkan Tugas:</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px;">
+                                <select id="filter-tugas" class="input-style" style="margin:0; flex-grow: 1;" onchange="renderTugasSiswaGantiFilter()">
+                                    <option value="semua">Tampilkan Semua Tugas</option>
+                                </select>
+                                <div id="stat-kumpul" style="background: #fff0f5; color:var(--pink-dark); font-weight:800; font-size:0.85rem; padding:15px 20px; border-radius:15px; text-align:right; border: 1px solid #fce4ec; box-shadow: inset 0 2px 5px rgba(255,64,129,0.05);">
+                                    Memuat Data...
+                                </div>
+                            </div>
+
                             <div id="daftar-tugas-masuk"></div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <div id="area-arsip" style="display: none;">
-                <div class="header-kelas" style="background: linear-gradient(to right, #2196f3, #1976d2);">
+                <div class="header-kelas" style="background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
                     <div>
-                        <h3 style="font-size: 1.5rem;">📁 Arsip RPP & Modul Pribadi</h3>
-                        <p>File Drive di sini bersifat rahasia dan tidak bisa diakses siswa.</p>
+                        <h3 style="font-size: 2.2rem; margin:0; font-weight:900; letter-spacing: 1px;">📁 Brankas Arsip Pribadi</h3>
+                        <p style="margin: 5px 0 0 0; color: #cbd5e1; font-weight: 500;">Simpan RPP dan Modul rahasia Anda di sini.</p>
                     </div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div class="card">
-                        <h2>➕ Tambah File Drive</h2>
-                        <label>Judul File </label>
-                        <input type="text" id="arsip-judul" class="input-style">
-                        <label>Link Google Drive</label>
-                        <input type="text" id="arsip-link" class="input-style" placeholder="https://drive.google.com/file/d/...">
-                        <button class="nav-btn" style="background: #2196f3; margin-top: 10px;" onclick="simpanArsip()">💾 Simpan ke Arsip</button>
+                <div class="grid-2-col">
+                    <div class="card-main">
+                        <h2 style="color: var(--text-dark); margin-bottom: 20px; font-weight: 900;">➕ Tambah Arsip Drive</h2>
+                        <label class="form-label">Nama Dokumen</label>
+                        <input type="text" id="arsip-judul" class="input-style" placeholder="Contoh: RPP Bab 1 - Aljabar">
+                        <label class="form-label">Link Google Drive</label>
+                        <input type="text" id="arsip-link" class="input-style" placeholder="https://drive.google.com/...">
+                        <button class="btn-kirim" onclick="simpanArsip()">💾 Simpan Ke Brankas</button>
                     </div>
-                    <div class="card">
-                        <h2>📂 Bosmath Arsip </h2>
+                    <div class="card-main">
+                        <h2 style="color: var(--text-dark); margin-bottom: 20px; font-weight: 900;">📂 Daftar Arsip Tersimpan</h2>
                         <div id="daftar-arsip"></div>
                     </div>
                 </div>
@@ -130,205 +278,336 @@
         let sesi = JSON.parse(localStorage.getItem('sesiBosmath'));
         if (!sesi || sesi.role !== 'guru') location.href = 'index.html';
         document.getElementById('nama-guru').innerText = sesi.nama;
+        window.prosesLogout = () => { localStorage.removeItem('sesiBosmath'); location.href = 'index.html'; };
 
-        window.prosesLogout = () => { localStorage.clear(); location.href = 'index.html'; };
+        let kelasAktif = ''; let dataGlobal = {}; let dataArsipPribadi = [];
 
-        let kelasAktif = '';
-        let dataGlobal = {};
-        let dataArsipPribadi = [];
+        function formatWaktuDetail(timestamp, deadlineStr) {
+            if (!timestamp) return { textFull: "-", status: "Belum Kumpul", textTelat: "" };
+            let dateObj = new Date(timestamp);
+            let dateText = dateObj.toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+            
+            let status = "Tepat Waktu";
+            let textTelat = "";
 
-        // --- PANTAU KELAS ---
+            if (deadlineStr) {
+                let dDate = new Date(deadlineStr).getTime();
+                if (timestamp > dDate) {
+                    status = "Terlambat";
+                    let diff = timestamp - dDate;
+                    let min = Math.floor(diff / 60000); let hr = Math.floor(min / 60); let day = Math.floor(hr / 24);
+                    if (day > 0) textTelat = `(Telat ${day} Hari ${hr % 24} Jam)`;
+                    else if (hr > 0) textTelat = `(Telat ${hr} Jam ${min % 60} Menit)`;
+                    else textTelat = `(Telat ${min} Menit)`;
+                }
+            }
+            return { textFull: dateText, status: status, textTelat: textTelat };
+        }
+
         onSnapshot(query(collection(db, "kelas"), where("guruId", "==", sesi.uid)), (snap) => {
             const tabs = document.getElementById('container-kelas');
-            tabs.innerHTML = '<button class="tab-btn" onclick="buatKelasBaru()">+ Buat Kelas Baru</button>';
+            tabs.innerHTML = '<button class="tab-btn" onclick="buatKelasBaru()">✨ Buat Kelas Baru</button>';
             snap.forEach(doc => {
                 dataGlobal[doc.id] = doc.data();
                 let btn = document.createElement('button');
                 btn.className = 'tab-btn' + (kelasAktif === doc.id ? ' active' : '');
-                btn.innerText = doc.data().namaKelas;
-                btn.onclick = () => bukaKelas(doc.id);
-                tabs.prepend(btn);
+                btn.innerText = "📚 " + doc.data().namaKelas; btn.onclick = () => bukaKelas(doc.id); tabs.prepend(btn);
             });
             if(kelasAktif && document.getElementById('area-kerja').style.display === 'block') bukaKelas(kelasAktif);
         });
 
-        // --- PANTAU ARSIP PRIBADI ---
         onSnapshot(doc(db, "arsip_guru", sesi.uid), (snap) => {
-            if(snap.exists()){
-                dataArsipPribadi = snap.data().items || [];
-            } else {
-                dataArsipPribadi = [];
-            }
+            if(snap.exists()){ dataArsipPribadi = snap.data().items || []; } else { dataArsipPribadi = []; }
             renderArsip();
         });
 
-        // --- NAVIGASI TAMPILAN ---
         window.bukaArsipPribadi = () => {
-            document.getElementById('area-kerja').style.display = 'none';
-            document.getElementById('card-siswa').style.display = 'none';
-            document.getElementById('area-arsip').style.display = 'block';
-            
-            // Hapus status aktif dari semua tombol kelas
+            document.getElementById('area-kerja').style.display = 'none'; document.getElementById('card-siswa').style.display = 'none'; document.getElementById('area-arsip').style.display = 'block';
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        };
+
+        window.salinKode = () => {
+            let kode = document.getElementById('display-kode').innerText;
+            navigator.clipboard.writeText(kode);
+            alert("📋 Kode kelas [ " + kode + " ] berhasil disalin!\nSilakan Paste ke grup WhatsApp siswa.");
         };
 
         function bukaKelas(id) {
             kelasAktif = id;
-            document.getElementById('area-arsip').style.display = 'none';
-            document.getElementById('area-kerja').style.display = 'block';
-            document.getElementById('card-siswa').style.display = 'block';
+            document.getElementById('area-arsip').style.display = 'none'; document.getElementById('area-kerja').style.display = 'block'; document.getElementById('card-siswa').style.display = 'block';
+            document.getElementById('display-kelas').innerText = dataGlobal[id].namaKelas; document.getElementById('display-kode').innerText = id;
             
-            document.getElementById('display-kelas').innerText = dataGlobal[id].namaKelas;
-            document.getElementById('display-kode').innerText = id;
-            
-            // Perbarui tombol aktif
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if(btn.innerText === dataGlobal[id].namaKelas) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
+            const isLocked = dataGlobal[id].isLocked || false;
+            const btnLock = document.getElementById('btn-lock');
+            if(isLocked) { btnLock.innerHTML = "🔒 Terkunci"; btnLock.style.color = "var(--pink-main)"; } 
+            else { btnLock.innerHTML = "🔓 Terbuka"; btnLock.style.color = "var(--text-main)"; }
 
-            renderSiswa(dataGlobal[id].siswaGabung || []);
-            renderPost(dataGlobal[id].postingan || []);
-            renderTugasSiswa(dataGlobal[id].tugasTerkumpul || []);
+            document.querySelectorAll('.tab-btn').forEach(btn => { if(btn.innerText.includes(dataGlobal[id].namaKelas)) btn.classList.add('active'); else btn.classList.remove('active'); });
+            renderSiswa(dataGlobal[id].siswaGabung || []); renderPost(dataGlobal[id].postingan || []); renderTugasSiswa(dataGlobal[id].tugasTerkumpul || []);
         }
 
-        // --- LOGIKA KELAS ---
+        window.toggleKunciKelas = async () => {
+            let statusSekarang = dataGlobal[kelasAktif].isLocked || false;
+            if(confirm(statusSekarang ? "Buka kelas?" : "Kunci kelas?")) await updateDoc(doc(db, "kelas", kelasAktif), { isLocked: !statusSekarang });
+        };
+
         window.buatKelasBaru = async () => {
             let n = prompt("Nama Kelas Baru:");
             if (n) {
                 let id = Math.random().toString(36).substring(2, 8).toUpperCase();
-                await setDoc(doc(db, "kelas", id), { namaKelas: n, guruId: sesi.uid, postingan: [], siswaGabung: [], tugasTerkumpul: [] });
+                await setDoc(doc(db, "kelas", id), { namaKelas: n, guruId: sesi.uid, isLocked: false, postingan: [], siswaGabung: [], tugasTerkumpul: [] });
             }
         };
 
-        window.hapusKelasTotal = async () => {
-            if(confirm("Hapus seluruh kelas?")) {
-                await deleteDoc(doc(db, "kelas", kelasAktif));
-                kelasAktif = '';
-                document.getElementById('area-kerja').style.display = 'none';
-                document.getElementById('card-siswa').style.display = 'none';
-            }
-        };
+        window.hapusKelasTotal = async () => { if(confirm("Hapus kelas permanen?")) { await deleteDoc(doc(db, "kelas", kelasAktif)); kelasAktif = ''; document.getElementById('area-kerja').style.display = 'none'; document.getElementById('card-siswa').style.display = 'none'; } };
 
         window.kirimPostingan = async () => {
-            const btn = document.getElementById('btn-kirim');
-            const fileInput = document.getElementById('input-file');
-            btn.innerText = "⏳ Sedang Mengirim..."; btn.disabled = true;
-            let fileUrl = "";
-
+            const btn = document.getElementById('btn-kirim'); const fileInput = document.getElementById('input-file'); 
+            const deadlineInput = document.getElementById('input-deadline').value; 
+            
+            if (fileInput.files.length > 0 && fileInput.files[0].size > 10 * 1024 * 1024) return alert("❌ Ukuran file maksimal 10 MB.");
+            btn.innerText = "⏳ Sedang Mengirim..."; btn.disabled = true; let fileUrl = "";
             if (fileInput.files.length > 0) {
                 try {
-                    const formData = new FormData();
-                    formData.append('file', fileInput.files[0]);
+                    const formData = new FormData(); formData.append('file', fileInput.files[0]);
                     const res = await fetch('https://store1.gofile.io/uploadFile', { method: 'POST', body: formData });
-                    const resJson = await res.json();
-                    if (resJson.status === "ok") fileUrl = resJson.data.downloadPage;
+                    const resJson = await res.json(); if (resJson.status === "ok") fileUrl = resJson.data.downloadPage;
                 } catch (err) { alert("Gagal Upload!"); }
             }
-
             try {
                 let newPost = { 
-                    id: Date.now(),
-                    tipe: document.getElementById('input-tipe').value,
-                    judul: document.getElementById('input-judul').value, 
-                    deskripsi: document.getElementById('input-deskripsi').value, 
-                    link: fileUrl
+                    id: Date.now(), tipe: document.getElementById('input-tipe').value, judul: document.getElementById('input-judul').value, 
+                    deskripsi: document.getElementById('input-deskripsi').value, deadline: deadlineInput, isClosed: false, link: fileUrl 
                 };
                 await updateDoc(doc(db, "kelas", kelasAktif), { postingan: [newPost, ...dataGlobal[kelasAktif].postingan] });
-                document.getElementById('input-judul').value = ""; document.getElementById('input-deskripsi').value = ""; fileInput.value = "";
-            } catch (e) { alert(e.message); }
-            finally { btn.innerText = "🚀 Kirim ke Kelas"; btn.disabled = false; }
+                document.getElementById('input-judul').value = ""; document.getElementById('input-deskripsi').value = ""; fileInput.value = ""; document.getElementById('input-deadline').value = "";
+            } catch (e) { alert(e.message); } finally { btn.innerText = "🚀 Publikasikan ke Kelas"; btn.disabled = false; }
         };
 
-        window.hapusMateri = async (postId) => {
-            if(confirm("Hapus materi ini?")) {
-                let materiBaru = dataGlobal[kelasAktif].postingan.filter(p => p.id !== postId);
-                await updateDoc(doc(db, "kelas", kelasAktif), { postingan: materiBaru });
+        window.hapusMateri = async (postId) => { if(confirm("Hapus materi ini?")) { let materiBaru = dataGlobal[kelasAktif].postingan.filter(p => p.id !== postId); await updateDoc(doc(db, "kelas", kelasAktif), { postingan: materiBaru }); } };
+        
+        window.toggleTutupPengumpulan = async (postId) => {
+            let list = [...dataGlobal[kelasAktif].postingan];
+            let idx = list.findIndex(p => p.id === postId);
+            if(idx > -1) {
+                let statusTutup = list[idx].isClosed || false;
+                if(confirm(statusTutup ? "Buka kembali akses pengumpulan tugas?" : "Tutup akses pengumpulan tugas?")) {
+                    list[idx].isClosed = !statusTutup;
+                    await updateDoc(doc(db, "kelas", kelasAktif), { postingan: list });
+                }
             }
         };
 
-        window.beriNilai = async (index) => {
-            let nilaiVal = document.getElementById(`nilai-${index}`).value;
-            let listTugas = [...dataGlobal[kelasAktif].tugasTerkumpul];
-            listTugas[index].nilai = nilaiVal;
-            await updateDoc(doc(db, "kelas", kelasAktif), { tugasTerkumpul: listTugas });
-            alert("Nilai disimpan!");
+        window.beriNilai = async (originalIndex) => { 
+            let nilaiVal = document.getElementById(`nilai-${originalIndex}`).value; 
+            if(nilaiVal.trim() === "") return alert("Masukkan angka nilai terlebih dahulu!");
+            let btnNilai = document.getElementById(`btn-nilai-${originalIndex}`);
+            btnNilai.innerText = "⏳..";
+            try {
+                let listTugas = [...dataGlobal[kelasAktif].tugasTerkumpul]; 
+                listTugas[originalIndex].nilai = nilaiVal; 
+                await updateDoc(doc(db, "kelas", kelasAktif), { tugasTerkumpul: listTugas }); 
+            } catch (err) { alert("Gagal menyimpan nilai."); btnNilai.innerText = "Gagal"; }
         };
 
-        // --- LOGIKA ARSIP PRIBADI ---
-        window.simpanArsip = async () => {
-            let judul = document.getElementById('arsip-judul').value;
-            let link = document.getElementById('arsip-link').value;
-            
-            if(!judul || !link) return alert("Judul dan Link Google Drive wajib diisi!");
-
-            let newItem = { id: Date.now(), judul: judul, link: link };
-            let newList = [newItem, ...dataArsipPribadi];
-
-            // Simpan ke database terpisah khusus guru ini
-            await setDoc(doc(db, "arsip_guru", sesi.uid), { items: newList }, { merge: true });
-            
-            document.getElementById('arsip-judul').value = "";
-            document.getElementById('arsip-link').value = "";
-            alert("Tersimpan di Arsip Pribadi!");
+        window.hapusTugasMasuk = async (originalIndex) => {
+            if(!confirm("Yakin ingin menghapus data tugas ini dari daftar?")) return;
+            try {
+                let listTugas = [...dataGlobal[kelasAktif].tugasTerkumpul];
+                listTugas.splice(originalIndex, 1); 
+                await updateDoc(doc(db, "kelas", kelasAktif), { tugasTerkumpul: listTugas });
+            } catch (err) { alert("Gagal menghapus data."); }
         };
 
-        window.hapusArsip = async (idArsip) => {
-            if(confirm("Hapus arsip ini?")) {
-                let newList = dataArsipPribadi.filter(item => item.id !== idArsip);
-                await setDoc(doc(db, "arsip_guru", sesi.uid), { items: newList }, { merge: true });
+        window.renderTugasSiswaGantiFilter = () => { renderTugasSiswa(dataGlobal[kelasAktif].tugasTerkumpul || []); };
+        
+        // --- FUNGSI RENDER SISWA (URUT ABJAD & BER-SCROLL DENGAN TEMA PINK) ---
+        function renderSiswa(list) { 
+            const area = document.getElementById('list-siswa-kelas'); 
+            if (!list || list.length === 0) {
+                area.innerHTML = "<p style='font-size:0.85em; color:#718096; text-align:center; padding: 20px 0;'>Belum ada siswa.</p>";
+                return;
+            }
+            
+            let sortedList = [...list].sort((a, b) => a.localeCompare(b));
+            let htmlContent = '<div class="siswa-list-wrapper">';
+            sortedList.forEach((s, index) => { 
+                let inisial = s.charAt(0).toUpperCase();
+                htmlContent += `
+                    <div class="siswa-badge">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div class="siswa-avatar">${inisial}</div>
+                            <span>${s}</span>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--pink-main); background: var(--bg-color); padding: 3px 10px; border-radius: 8px; font-weight:800;">#${index + 1}</span>
+                    </div>`; 
+            });
+            htmlContent += '</div>';
+            area.innerHTML = htmlContent;
+        }
+        
+        function renderPost(list) { 
+            const area = document.getElementById('daftar-postingan'); area.innerHTML = list.length ? "" : "<div style='text-align:center; padding: 40px 20px;'><h3 style='color:#f8bbd0; font-size: 3rem; margin-bottom: 10px;'>📝</h3><p style='color:var(--text-muted); font-weight:500;'>Belum ada materi yang diposting.</p></div>"; 
+            list.forEach(p => { 
+                let deadlineText = '';
+                if(p.deadline) {
+                    let dObj = new Date(p.deadline);
+                    deadlineText = dObj.toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+                }
+                let deadlineHtml = p.deadline ? `<p style="color:var(--pink-dark); font-size:0.85em; font-weight:800; margin-bottom:10px; display:inline-block; background: #ffebee; padding: 5px 12px; border-radius: 10px; border: 1px solid #ffcdd2;">⏰ Tenggat: ${deadlineText}</p>` : '';
+                
+                let isClosed = p.isClosed || false;
+                let btnKunciHtml = (p.tipe === 'materi' || p.tipe === 'soal') ? `<button onclick="toggleTutupPengumpulan(${p.id})" style="background:${isClosed ? 'linear-gradient(135deg, var(--pink-main), var(--pink-dark))' : 'transparent'}; color:${isClosed ? 'white' : 'var(--pink-main)'}; border:2px solid var(--pink-main); padding:8px 18px; border-radius:12px; font-size:0.85rem; cursor:pointer; font-weight:800; margin-top:15px; display:block; box-shadow: ${isClosed ? '0 5px 15px var(--pink-glow)' : 'none'}; transition: var(--transition-bounce);" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">${isClosed ? '🔓 Buka Akses Pengumpulan' : '🔒 Tutup Akses Pengumpulan'}</button>` : '';
+
+                area.innerHTML += `
+                <div class="post-item">
+                    <button class="btn-hapus-item" onclick="hapusMateri(${p.id})">✕</button>
+                    <span class="badge-tipe bg-${p.tipe}">${p.tipe}</span>
+                    <h4 style="color:var(--text-dark); margin-top:15px; font-size: 1.3rem; font-weight: 900;">${p.judul}</h4>
+                    ${deadlineHtml}
+                    <p style="font-size:1rem; margin: 10px 0 15px 0; color:var(--text-muted); white-space:pre-wrap; line-height: 1.7; font-weight: 500;">${p.deskripsi}</p>
+                    ${p.link ? `<a href="${p.link}" target="_blank" style="background:var(--bg-color); color:var(--pink-main); border: 1px solid var(--pink-light); padding:10px 22px; border-radius:15px; text-decoration:none; font-size:0.9em; font-weight:800; display:inline-block; margin-top:5px; margin-right:10px; transition: var(--transition-bounce);" onmouseover="this.style.background='var(--pink-main)'; this.style.color='white'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--bg-color)'; this.style.color='var(--pink-main)'; this.style.transform='translateY(0)'">📥 Unduh Lampiran File</a>` : ''}
+                    ${btnKunciHtml}
+                </div>`; 
+            }); 
+        }
+
+        function renderTugasSiswa(list) { 
+            const area = document.getElementById('daftar-tugas-masuk'); 
+            const filterSelect = document.getElementById('filter-tugas');
+            const statBox = document.getElementById('stat-kumpul');
+
+            let judulUnik = [...new Set(list.map(t => t.judulTugas))];
+            let filterSekarang = filterSelect.value;
+            filterSelect.innerHTML = '<option value="semua">Tampilkan Semua Tugas</option>';
+            judulUnik.forEach(j => { filterSelect.innerHTML += `<option value="${j}" ${(j === filterSekarang) ? 'selected' : ''}>Tugas: ${j}</option>`; });
+
+            let filteredList = filterSelect.value !== 'semua' ? list.filter(t => t.judulTugas === filterSelect.value) : list;
+            filteredList.sort((a, b) => (!a.nilai && b.nilai) ? -1 : (a.nilai && !b.nilai) ? 1 : 0);
+
+            let totalKumpul = filteredList.length;
+            let sudahDinilai = filteredList.filter(t => t.nilai && t.nilai.toString().trim() !== "").length;
+            let belumDinilai = totalKumpul - sudahDinilai;
+
+            statBox.innerHTML = `📊 Kumpul: ${totalKumpul} | ✅ Dinilai: ${sudahDinilai} | ⏳ Belum: ${belumDinilai}`;
+
+            area.innerHTML = filteredList.length ? "" : "<div style='text-align:center; padding: 40px 20px;'><h3 style='color:#f8bbd0; font-size: 3rem; margin-bottom: 10px;'>📭</h3><p style='color:var(--text-muted); font-weight:600;'>Belum ada tugas yang dikumpulkan oleh siswa.</p></div>"; 
+            
+            filteredList.forEach((t) => { 
+                let originalIndex = list.findIndex(orig => orig.postId === t.postId && orig.namaSiswa === t.namaSiswa);
+                let isGraded = t.nilai && t.nilai.toString().trim() !== "";
+                
+                let statusDinilai = isGraded ? `<span style="background:linear-gradient(135deg, var(--pink-main), var(--pink-dark)); color:white; padding:6px 15px; border-radius:12px; font-size:0.75em; font-weight:800; box-shadow: 0 4px 10px var(--pink-glow);">✅ Dinilai: ${t.nilai}</span>` : `<span style="background:var(--bg-color); color:var(--pink-main); padding:6px 15px; border-radius:12px; font-size:0.75em; font-weight:800; border: 1px solid var(--pink-light);">⏳ Butuh Penilaian</span>`;
+                
+                let postData = (dataGlobal[kelasAktif].postingan || []).find(x => x.id === t.postId);
+                let deadline = postData ? postData.deadline : null;
+                let infoWaktu = formatWaktuDetail(t.waktuKumpul, deadline);
+                
+                let warnaWaktu = infoWaktu.status === "Terlambat" ? "var(--pink-dark)" : "var(--text-muted)";
+                let teksWaktuLengkap = t.waktuKumpul ? `
+                    <span style="font-size:0.8em; color:var(--text-muted); display:block; margin-top:5px; font-weight:600;">🕒 ${infoWaktu.textFull}</span>
+                    <span style="font-size:0.8em; color:${warnaWaktu}; font-weight:800; background: ${infoWaktu.status === 'Terlambat' ? '#ffebee' : '#f1f5f9'}; padding: 3px 10px; border-radius: 8px; display: inline-block; margin-top: 5px;">${infoWaktu.status} ${infoWaktu.textTelat}</span>
+                ` : `<span style="font-size:0.75em; color:var(--text-muted);">Waktu tidak tercatat</span>`;
+
+                let btnText = isGraded ? "Ubah Nilai" : "Simpan Nilai";
+                let btnBgColor = isGraded ? "transparent" : "linear-gradient(135deg, var(--pink-main), var(--pink-dark))"; 
+                let btnTextColor = isGraded ? "var(--pink-main)" : "white";
+                let btnBorder = isGraded ? "2px solid var(--pink-main)" : "none";
+
+                area.innerHTML += ` 
+                <div class="post-item" style="padding: 25px;"> 
+                    <button class="btn-hapus-item" onclick="hapusTugasMasuk(${originalIndex})" title="Hapus Tugas Ini">✕</button>
+                    <div style="display:flex; justify-content:space-between; align-items:start; margin-right: 40px;">
+                        <div>
+                            <b style="color:var(--text-dark); font-size:1.2rem; font-weight: 800;">🧑‍🎓 ${t.namaSiswa}</b>
+                            ${teksWaktuLengkap}
+                        </div>
+                        ${statusDinilai}
+                    </div>
+                    <p style="font-size:0.95em; color:var(--text-muted); margin: 18px 0; font-weight:600; border-top: 2px dashed var(--glass-border); padding-top: 15px;">Mengerjakan Tugas: <span style="color:var(--pink-main); font-weight:800;">${t.judulTugas}</span></p> 
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <a href="${t.link}" target="_blank" style="background:var(--bg-color); color:var(--text-main); padding:12px 20px; border-radius:14px; font-size:0.9rem; text-decoration:none; font-weight:800; transition: var(--transition-bounce); border: 1px solid var(--glass-border);" onmouseover="this.style.background='var(--surface-color)'; this.style.boxShadow='var(--shadow-soft)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--bg-color)'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">👀 Buka Jawaban</a>
+                        <input type="number" id="nilai-${originalIndex}" class="input-style" placeholder="Beri Nilai" value="${t.nilai || ''}" style="width:120px; margin:0; padding:12px 15px; border-radius: 14px; font-weight:800; font-size: 1.1rem; color: var(--pink-main);"> 
+                        <button id="btn-nilai-${originalIndex}" style="background:${btnBgColor}; color:${btnTextColor}; border:${btnBorder}; padding:12px 22px; border-radius:14px; font-weight:800; font-size:0.95rem; cursor:pointer; transition:var(--transition-bounce); box-shadow: ${isGraded ? 'none' : '0 5px 15px var(--pink-glow)'};" onclick="beriNilai(${originalIndex})" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">${btnText}</button> 
+                    </div>
+                </div>`; 
+            }); 
+        }
+
+        window.unduhRekapNilai = () => {
+            if (!kelasAktif || !dataGlobal[kelasAktif]) return alert("Pilih kelas terlebih dahulu!");
+            let d = dataGlobal[kelasAktif]; 
+            let s = d.siswaGabung || []; 
+            let t = d.tugasTerkumpul || [];
+            
+            if (s.length === 0) return alert("Belum ada siswa di kelas ini.");
+            
+            let filterSelect = document.getElementById('filter-tugas').value;
+            let judulTugasUnik = [...new Set(t.map(x => x.judulTugas))];
+
+            if (filterSelect !== 'semua') {
+                judulTugasUnik = [filterSelect];
+            }
+
+            let sep = ";"; 
+            let csvContent = "\uFEFF"; // BOM untuk format Excel
+
+            csvContent += `REKAPITULASI NILAI KELAS: ${d.namaKelas}\n`;
+            csvContent += `Dicetak pada: ${new Date().toLocaleString('id-ID')}\n\n`;
+
+            csvContent += "No" + sep + "Nama Lengkap" + sep + "Kelas";
+            judulTugasUnik.forEach(judul => { 
+                csvContent += sep + "TUGAS: " + judul + sep + "WAKTU KUMPUL" + sep + "STATUS TELAT"; 
+            }); 
+            csvContent += "\n";
+
+            s.forEach((name, i) => {
+                let row = [(i + 1), name, d.namaKelas];
+                judulTugasUnik.forEach(judul => { 
+                    let job = t.find(x => x.namaSiswa === name && x.judulTugas === judul); 
+                    if (job) {
+                        let postData = (d.postingan || []).find(p => p.id === job.postId);
+                        let deadline = postData ? postData.deadline : null;
+                        let info = formatWaktuDetail(job.waktuKumpul, deadline);
+                        
+                        row.push(job.nilai ? job.nilai : "Belum Dinilai");
+                        row.push(info.textFull); 
+                        row.push(info.status === "Terlambat" ? `${info.status} ${info.textTelat}` : info.status); 
+                    } else {
+                        row.push("Belum Kumpul", "-", "-");
+                    }
+                });
+                csvContent += row.join(sep) + "\n";
+            });
+
+            // LOGIKA DOWNLOAD YANG AMAN DARI BLOKIR BROWSER
+            try {
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                let namaFile = filterSelect === 'semua' ? 'Semua_Tugas' : filterSelect.replace(/\s+/g, '_');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute("href", url); 
+                link.setAttribute("download", `Rekap_Nilai_${d.namaKelas.replace(/\s+/g, '_')}_${namaFile}.csv`); 
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }, 200);
+
+            } catch(e) {
+                alert("Terjadi kesalahan saat mengunduh file: " + e.message);
             }
         };
 
-        // --- RENDER TAMPILAN ---
-        function renderSiswa(list) {
-            const area = document.getElementById('list-siswa-kelas');
-            area.innerHTML = list.length ? "" : "<p style='font-size:0.8em; color:#999;'>Belum ada siswa.</p>";
-            list.forEach(s => area.innerHTML += `<span class="siswa-badge">👤 ${s}</span>`);
-        }
-
-        function renderPost(list) {
-            const area = document.getElementById('daftar-postingan');
-            area.innerHTML = list.length ? "" : "<p style='color:#999;'>Belum ada materi.</p>";
-            list.forEach(p => {
-                let tipeBadge = `<span class="badge-tipe bg-${p.tipe}">${p.tipe}</span>`;
-                area.innerHTML += `
-                <div class="post-item">
-                    <button class="btn-hapus-post" onclick="hapusMateri(${p.id})">🗑️</button>
-                    ${tipeBadge}
-                    <h4 style="color:#d81b60; margin-top:5px;">${p.judul}</h4>
-                    <p style="font-size:0.8em; margin: 5px 0;">${p.deskripsi}</p>
-                    ${p.link ? `<a href="${p.link}" target="_blank" class="btn-download">📥 Lihat File</a>` : ''}
-                </div>`;
-            });
-        }
-
-        function renderTugasSiswa(list) {
-            const area = document.getElementById('daftar-tugas-masuk');
-            area.innerHTML = list.length ? "" : "<p style='color:#999;'>Kosong.</p>";
-            list.forEach((t, i) => {
-                area.innerHTML += `
-                <div class="post-item">
-                    <b>👤 ${t.namaSiswa}</b> - <a href="${t.link}" target="_blank">Buka Tugas</a>
-                    <p style="font-size:0.8em; color:#666;">Materi: ${t.judulTugas}</p>
-                    <input type="number" id="nilai-${i}" class="nilai-input" value="${t.nilai || ''}" style="width:60px; padding:5px; border-radius:5px; border:1px solid #ccc;">
-                    <button class="btn-nilai" onclick="beriNilai(${i})" style="background:#ff4081; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Simpan</button>
-                </div>`;
-            });
-        }
-
-        function renderArsip() {
-            const area = document.getElementById('daftar-arsip');
-            area.innerHTML = dataArsipPribadi.length ? "" : "<p style='color:#999;'>Belum ada arsip tersimpan.</p>";
-            dataArsipPribadi.forEach(item => {
-                area.innerHTML += `
-                <div class="post-item" style="border-left: 5px solid #2196f3;">
-                    <button class="btn-hapus-post" onclick="hapusArsip(${item.id})">🗑️</button>
-                    <h4 style="color:#1976d2; margin-top:5px;">${item.judul}</h4>
-                    <a href="${item.link}" target="_blank" class="btn-download" style="background: #2196f3; margin-top: 10px;">📁 Buka Drive</a>
-                </div>`;
-            });
-        }
+        window.simpanArsip = async () => { let j = document.getElementById('arsip-judul').value; let l = document.getElementById('arsip-link').value; if(!j || !l) return alert("Isi semua!"); let newList = [{ id: Date.now(), judul: j, link: l }, ...dataArsipPribadi]; await setDoc(doc(db, "arsip_guru", sesi.uid), { items: newList }, { merge: true }); alert("Tersimpan!"); document.getElementById('arsip-judul').value = ""; document.getElementById('arsip-link').value = ""; };
+        window.hapusArsip = async (id) => { if(confirm("Hapus arsip?")) { let nl = dataArsipPribadi.filter(x => x.id !== id); await setDoc(doc(db, "arsip_guru", sesi.uid), { items: nl }, { merge: true }); } };
+        
+        function renderArsip() { const area = document.getElementById('daftar-arsip'); area.innerHTML = dataArsipPribadi.length ? "" : "<p style='color:var(--text-muted); text-align:center; font-weight:600;'>Belum ada arsip yang disimpan.</p>"; dataArsipPribadi.forEach(item => { area.innerHTML += `<div class="post-item" style="border-left: 6px solid var(--text-main);"><button class="btn-hapus-item" onclick="hapusArsip(${item.id})">✕</button><h4 style="color:var(--text-dark); font-weight: 900; font-size:1.2rem;">${item.judul}</h4><a href="${item.link}" target="_blank" style="background:linear-gradient(135deg, var(--text-main), #000); color:white; padding:10px 25px; border-radius:15px; text-decoration:none; font-size:0.9rem; font-weight:800; margin-top:15px; display:inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: var(--transition-bounce);" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">🚀 Buka di Google Drive</a></div>`; }); }
     </script>
 </body>
 </html>
