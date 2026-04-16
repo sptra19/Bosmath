@@ -3,67 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT BOSMATH- Dashboard Siswa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>STUDENT BOSMATH - Dashboard Siswa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* --- RESET & VARIABLES (PREMIUM PINK THEME) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #ffe4e1; min-height: 100vh; color: #333; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
-        .card { background: #fff; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1); border: 1px solid #ffb6c1; margin-bottom: 20px; }
-        h2 { color: #d81b60; margin-bottom: 15px; font-size: 1.2rem; border-bottom: 1px dashed #ffb6c1; padding-bottom: 5px; }
-        .sidebar-title { font-size: 1.5rem; color: #d81b60; font-weight: bold; text-align: center; margin-bottom: 20px; }
-        .nav-btn { display: block; width: 100%; background: #ff4081; color: white; padding: 12px; border-radius: 25px; border: none; cursor: pointer; margin-bottom: 10px; font-weight: bold; transition: 0.3s; }
-        .nav-btn:hover { filter: brightness(0.9); transform: translateY(-2px); }
-        .btn-logout { width: 100%; background: #c62828; color: white; padding: 12px; border-radius: 25px; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; }
-        .class-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-btn { background: #fff; border: 2px solid #ff4081; color: #ff4081; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: 600; white-space: nowrap; }
-        .tab-btn.active { background: #ff4081; color: white; }
-        .header-kelas { background: linear-gradient(to right, #ff4081, #d81b60); color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 15px; padding: 20px; margin-bottom: 20px;}
-        .input-kode { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ffb6c1; outline: none; text-align: center; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px;}
-        .post-item { background: #fffafb; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #f8bbd0; position: relative; }
-        .btn-download { display: inline-block; margin-top: 10px; padding: 8px 15px; background: #4caf50; color: white; border-radius: 20px; text-decoration: none; font-size: 0.8em; font-weight: bold; }
-        .badge-tipe { font-size: 0.75em; padding: 4px 10px; border-radius: 8px; color: white; font-weight: bold; text-transform: uppercase; }
-        .bg-rpp { background: #9c27b0; } .bg-soal { background: #2196f3; } .bg-game { background: #ff9800; } .bg-materi { background: #ff4081; }
-        .nilai-box { position: absolute; top: 20px; right: 20px; background: #ff4081; color: white; padding: 5px 15px; border-radius: 10px; font-weight: bold; }
-        .box-kumpul { background: #ffebee; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px dashed #ff4081; }
+        
+        :root {
+            --pink-main: #ff4081;
+            --pink-dark: #f50057;
+            --pink-light: #ff80ab;
+            --pink-glow: rgba(255, 64, 129, 0.4);
+            --bg-color: #fdf2f6;
+            --surface-color: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 64, 129, 0.15);
+            --shadow-soft: 0 10px 30px rgba(255, 64, 129, 0.08);
+            --shadow-hover: 0 20px 40px rgba(255, 64, 129, 0.2);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body { background: var(--bg-color); color: var(--text-main); overflow-x: hidden; min-height: 100vh; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        /* --- SIDEBAR PREMIUM GLASS --- */
+        .sidebar { width: 280px; background: var(--surface-color); border-right: 1px solid var(--glass-border); height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; display: flex; flex-direction: column; padding: 30px 20px; box-shadow: var(--shadow-soft); transition: 0.3s; }
+        .brand { text-align: center; margin-bottom: 40px; position: relative; }
+        .brand h1 { color: var(--text-main); font-size: 2.2rem; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+        .brand h1 span { background: linear-gradient(135deg, var(--pink-main), var(--pink-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand .badge-student { font-size: 0.75rem; color: var(--pink-main); font-weight: 800; background: var(--bg-color); padding: 5px 15px; border-radius: 20px; letter-spacing: 1.5px; border: 1px solid var(--pink-light); text-transform: uppercase;}
+        
+        .menu-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 800; margin-bottom: 15px; margin-top: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-btn { display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; background: transparent; color: var(--text-muted); padding: 14px 20px; border-radius: 16px; border: 2px solid transparent; cursor: pointer; margin-bottom: 12px; font-weight: 600; transition: var(--transition-bounce); text-decoration: none; }
+        .nav-btn:hover { background: var(--bg-color); color: var(--pink-main); border-color: var(--glass-border); transform: translateX(5px); }
+        
+        .join-box { background: var(--bg-color); border: 2px dashed var(--glass-border); border-radius: 20px; padding: 25px 20px; margin-top: auto; text-align: center; box-shadow: inset 0 2px 10px rgba(255,64,129,0.05);}
+        .join-box h3 { font-size: 1.1rem; color: var(--pink-main); margin-bottom: 15px; font-weight: 800; }
+        .input-kode { width: 100%; padding: 15px; border-radius: 14px; border: 2px solid var(--pink-light); outline: none; text-align: center; font-weight: 800; letter-spacing: 3px; font-size: 1.1rem; margin-bottom: 15px; background: white; color: var(--pink-main); transition: var(--transition-bounce); box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);}
+        .input-kode:focus { border-color: var(--pink-dark); box-shadow: 0 0 0 4px var(--pink-glow); transform: translateY(-2px);}
+        .input-kode::placeholder { color: #f48fb1; font-weight: 600; letter-spacing: 1px;}
+        
+        .btn-join-primary { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; border: none; padding: 14px 20px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem; transition: var(--transition-bounce); box-shadow: 0 8px 20px var(--pink-glow); text-transform: uppercase; letter-spacing: 1px;}
+        .btn-join-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 64, 129, 0.5); filter: brightness(1.1); }
+
+        /* --- MAIN WRAPPER & TOPBAR --- */
+        .main-wrapper { margin-left: 280px; width: calc(100% - 280px); padding: 30px 40px; animation: fadeInUp 0.6s ease-out; }
+        .topbar { background: var(--glass-bg); backdrop-filter: blur(15px); padding: 20px 30px; border-radius: 24px; box-shadow: var(--shadow-soft); display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border: 1px solid var(--glass-border); }
+        .user-info { text-align: right; }
+        .user-info h4 { color: var(--text-main); font-size: 1.1rem; margin: 0; font-weight: 800; }
+        .user-info p { color: var(--pink-main); font-size: 0.85rem; margin: 0; font-weight: 600;}
+        .btn-logout { background: #ffebee; color: var(--pink-dark); border: none; padding: 10px 25px; border-radius: 30px; font-weight: 800; cursor: pointer; transition: var(--transition-bounce); font-size: 0.9rem; }
+        .btn-logout:hover { background: var(--pink-main); color: white; box-shadow: 0 5px 15px var(--pink-glow); transform: scale(1.05); }
+
+        /* --- CLASS TABS --- */
+        .class-tabs { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .class-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { background: var(--surface-color); border: 2px solid transparent; color: var(--text-muted); padding: 12px 28px; border-radius: 30px; cursor: pointer; font-weight: 700; white-space: nowrap; box-shadow: var(--shadow-soft); transition: var(--transition-bounce);}
+        .tab-btn:hover { color: var(--pink-main); transform: translateY(-3px); box-shadow: var(--shadow-hover);}
+        .tab-btn.active { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; box-shadow: 0 8px 20px var(--pink-glow); }
+
+        /* --- CARDS & PANELS --- */
+        .card-main { background: var(--surface-color); border-radius: 30px; padding: 35px; box-shadow: var(--shadow-soft); margin-bottom: 30px; border: 1px solid var(--glass-border); transition: var(--transition-bounce); }
+        
+        .header-kelas { background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-dark) 100%); color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 24px; padding: 35px 40px; margin-bottom: 30px; box-shadow: 0 15px 35px var(--pink-glow); position: relative; overflow: hidden; }
+        .header-kelas::before { content: ''; position: absolute; right: -50px; top: -50px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none; filter: blur(20px);}
+        
+        /* --- POST ITEMS (GLASS EFFECT) --- */
+        .post-item { background: var(--surface-color); padding: 30px; border-radius: 24px; margin-bottom: 25px; border: 1px solid var(--glass-border); position: relative; transition: var(--transition-bounce); box-shadow: var(--shadow-soft); border-left: 6px solid var(--pink-main); }
+        .post-item:hover { transform: translateY(-5px) scale(1.01); box-shadow: var(--shadow-hover); border-color: var(--pink-light); }
+        
+        .badge-tipe { font-size: 0.75em; padding: 6px 15px; border-radius: 20px; color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        .bg-rpp { background: linear-gradient(135deg, #f50057, #c51162); } 
+        .bg-soal { background: linear-gradient(135deg, #ff4081, #f50057); } 
+        .bg-game { background: linear-gradient(135deg, #ff80ab, #ff4081); } 
+        .bg-materi { background: linear-gradient(135deg, #e91e63, #c2185b); } 
+        .bg-pengumuman { background: linear-gradient(135deg, #f06292, #d81b60); } 
+
+        @keyframes pulse-glow { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); } }
+        .badge-baru { background: linear-gradient(135deg, #f44336, #e53935); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.75em; font-weight: 800; letter-spacing: 1px; animation: pulse-glow 2s infinite; margin-left: 10px; display: inline-block; box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);}
+
+        .btn-download { display: inline-flex; align-items: center; justify-content: center; margin-top: 15px; padding: 12px 25px; background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; border-radius: 16px; text-decoration: none; font-size: 0.9em; font-weight: 800; transition: var(--transition-bounce); box-shadow: 0 4px 10px rgba(76, 175, 80, 0.1);}
+        .btn-download:hover { background: #4caf50; color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3); border-color: #4caf50;}
+        
+        .btn-action-tugas { display: inline-block; width:auto; padding:12px 25px; border-radius: 16px; font-weight: 800; font-size: 0.95rem; cursor:pointer; transition: var(--transition-bounce); text-decoration: none; text-align: center; border: none;}
+        .btn-action-tugas.primary { background: linear-gradient(135deg, var(--pink-main), var(--pink-dark)); color: white; box-shadow: 0 8px 20px var(--pink-glow); }
+        .btn-action-tugas.primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 64, 129, 0.5); filter: brightness(1.1);}
+        .btn-action-tugas.outline { background: var(--bg-color); color: var(--pink-main); border: 2px solid var(--pink-light); }
+        .btn-action-tugas.outline:hover { background: var(--pink-main); color: white; transform: translateY(-3px); box-shadow: 0 8px 20px var(--pink-glow);}
+        .btn-action-tugas.danger { background: #ffebee; color: #d32f2f; }
+        .btn-action-tugas.danger:hover { background: #f44336; color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);}
+
+        .nilai-box { position: absolute; top: -15px; right: 25px; background: linear-gradient(135deg, #ffca28, #ff9800); color: #fff; padding: 10px 25px; border-radius: 20px; font-weight: 900; box-shadow: 0 8px 20px rgba(255, 179, 0, 0.4); font-size: 1.3rem; border: 3px solid white;}
+        .box-kumpul { background: var(--bg-color); padding: 25px; border-radius: 20px; margin-top: 25px; border: 2px dashed var(--pink-light); transition: 0.3s; position: relative;}
+        .box-kumpul:hover { border-color: var(--pink-main); background: #fff;}
+        
+        .file-input-wrapper { position: relative; margin-bottom: 15px; }
+        .file-input-wrapper input[type="file"] { width: 100%; padding: 15px; border: 2px dashed var(--pink-light); border-radius: 16px; background: white; color: var(--text-main); font-weight: 500; cursor: pointer; transition: var(--transition-bounce);}
+        .file-input-wrapper input[type="file"]:hover { border-color: var(--pink-main); background: var(--bg-color); }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) { 
+            .app-container { flex-direction: column; } 
+            .sidebar { position: relative; width: 100%; height: auto; padding: 20px; border-radius: 0 0 30px 30px; box-shadow: var(--shadow-soft); margin-bottom: 20px;} 
+            .main-wrapper { margin-left: 0; width: 100%; padding: 10px 20px 40px 20px; } 
+            .topbar { flex-direction: column; gap: 15px; text-align: center; } 
+            .user-info { text-align: center; } 
+            .header-kelas { flex-direction: column; gap: 20px; text-align: center; } 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
+        
         <div class="sidebar">
-            <div class="card">
-                <div class="sidebar-title">BOSMATH STUDENT</div>
-                <p style="text-align: center; font-size: 0.8em; margin-bottom: 15px;">👤 <b id="nama-siswa">...</b></p>
-                
-                <button class="nav-btn" onclick="window.open('https://www.geogebra.org/classic', '_blank')">📐 Buka GeoGebra</button>
-                <button class="btn-logout" onclick="prosesLogout()">🚪 Keluar</button>
+            <div class="brand">
+                <h1>BOSMATH</h1>
+                <span class="badge-student">Student Portal</span>
             </div>
-            <div class="card">
-                <h2>➕ Gabung Kelas</h2>
-                <input type="text" id="input-kode" class="input-kode" placeholder="KODE DARI GURU">
-                <button class="nav-btn" onclick="gabungKelas()">Gabung Sekarang</button>
+            
+            <p class="menu-label">Peralatan Belajar</p>
+            <button class="nav-btn" onclick="window.open('https://www.geogebra.org/classic', '_blank')">📐 GeoGebra Klasik</button>
+            <button class="nav-btn" style="color: #864cbf; border-color: rgba(134, 76, 191, 0.2);" onclick="window.open('https://quizizz.com/join', '_blank')">🎯 Join Quizizz Live</button>
+
+            <div class="join-box">
+                <h3>➕ Gabung Kelas Baru</h3>
+                <input type="text" id="input-kode" class="input-kode" placeholder="KODE KELAS" oninput="this.value = this.value.toUpperCase().replace(/\s/g, '')">
+                <button class="btn-join-primary" onclick="gabungKelas()">Bergabung Sekarang</button>
             </div>
         </div>
 
-        <div class="main-content">
+        <div class="main-wrapper">
+            <div class="topbar">
+                <div>
+                    <h2 style="color: var(--text-dark); font-size: 1.8rem; margin:0; font-weight: 900; letter-spacing: -0.5px;">Dashboard Siswa</h2>
+                    <p style="color: var(--text-muted); font-size: 1rem; margin:0; font-weight: 500;">Pantau materi dan selesaikan tugasmu di sini.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 25px;">
+                    <div class="user-info">
+                        <h4 id="nama-siswa">Memuat...</h4>
+                        <p>Siswa / Peserta KKN</p>
+                    </div>
+                    <button class="btn-logout" onclick="prosesLogout()">Keluar</button>
+                </div>
+            </div>
+
             <div class="class-tabs" id="tabs-kelas"></div>
 
             <div id="area-materi" style="display: none;">
-                <div class="header-kelas">
-                    <h3 id="judul-kelas-aktif" style="font-size: 1.5rem; margin:0;"></h3>
-                    <button onclick="keluarKelas()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold;">👋 Keluar dari Kelas</button>
-                </div>
-                
-                <div class="card">
+                <div class="card-main">
+                    <div class="header-kelas">
+                        <div>
+                            <p style="margin:0; font-size:1rem; opacity:0.9; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Materi Ruang Kelas</p>
+                            <h3 id="judul-kelas-aktif" style="font-size: 2.8rem; margin:5px 0; font-weight:900; text-shadow: 0 5px 15px rgba(0,0,0,0.2); letter-spacing: -1px;">Memuat Kelas...</h3>
+                        </div>
+                        <button onclick="keluarKelas()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.5); padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: 800; font-size:1rem; transition:var(--transition-bounce); backdrop-filter: blur(5px);" onmouseover="this.style.background='rgba(255,255,255,0.4)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='scale(1)'">👋 Keluar Kelas</button>
+                    </div>
+                    
                     <div id="daftar-materi"></div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, onSnapshot, updateDoc, collection, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyD0VI7Ai1oRgIwl2UXNV3tE4jbYZO9XJpY", authDomain: "learninp.firebaseapp.com", projectId: "learninp", storageBucket: "learninp.firebasestorage.app", messagingSenderId: "283126632684", appId: "1:283126632684:web:925104a875661b2f5f95c9" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app);
@@ -72,13 +180,50 @@
         if (!sesi || sesi.role !== 'siswa') location.href = 'index.html';
         document.getElementById('nama-siswa').innerText = sesi.nama;
 
-        window.prosesLogout = () => { localStorage.clear(); location.href = 'index.html'; };
+        window.prosesLogout = () => { localStorage.removeItem('sesiBosmath'); location.href = 'index.html'; };
 
-        let listKelas = JSON.parse(localStorage.getItem('myClasses_' + sesi.uid)) || [];
-        let kelasAktifID = '';
+        let listKelas = []; let dataGlobal = {}; let kelasAktifID = '';
+
+        // FITUR OTOMATIS ZONA WAKTU
+        function formatWaktuDetail(timestamp, deadlineStr) {
+            if (!timestamp) return { textFull: "-", status: "Belum Kumpul", textTelat: "" };
+            let dateObj = new Date(timestamp);
+            let dateText = dateObj.toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+            
+            let status = "Tepat Waktu"; let textTelat = "";
+            if (deadlineStr) {
+                let dDate = new Date(deadlineStr).getTime();
+                if (timestamp > dDate) {
+                    status = "Terlambat"; let diff = timestamp - dDate;
+                    let min = Math.floor(diff / 60000); let hr = Math.floor(min / 60); let day = Math.floor(hr / 24);
+                    if (day > 0) textTelat = `(Telat ${day} Hari ${hr % 24} Jam)`;
+                    else if (hr > 0) textTelat = `(Telat ${hr} Jam ${min % 60} Menit)`;
+                    else textTelat = `(Telat ${min} Menit)`;
+                }
+            }
+            return { textFull: dateText, status: status, textTelat: textTelat };
+        }
+
+        function formatSisaWaktu(deadlineStr) {
+            if (!deadlineStr) return null;
+            const dDate = new Date(deadlineStr).getTime(); const nDate = Date.now();
+            const diff = dDate - nDate; const isLate = diff < 0; const absDiff = Math.abs(diff);
+            const min = Math.floor(absDiff / 60000); const hr = Math.floor(min / 60); const day = Math.floor(hr / 24);
+            let text = "";
+            if (day > 0) text = `${day} hari ${hr % 24} jam`; else if (hr > 0) text = `${hr} jam ${min % 60} menit`; else text = `${min} menit`;
+            return { isLate, text: isLate ? `Terlewat ${text} lalu` : `Sisa waktu ${text}` };
+        }
+
+        onSnapshot(query(collection(db, "kelas"), where("siswaGabung", "array-contains", sesi.nama)), (snap) => {
+            listKelas = []; dataGlobal = {};
+            snap.forEach(doc => { listKelas.push(doc.id); dataGlobal[doc.id] = doc.data(); });
+            renderTabs();
+            if (kelasAktifID && listKelas.includes(kelasAktifID)) { bukaKonten(kelasAktifID); } 
+            else { document.getElementById('area-materi').style.display = 'none'; }
+        });
 
         window.gabungKelas = async () => {
-            let id = document.getElementById('input-kode').value.toUpperCase().trim();
+            let id = document.getElementById('input-kode').value; 
             if (!id) return alert("Masukkan kode kelas!");
             if (listKelas.includes(id)) return alert("Anda sudah bergabung di kelas ini!");
 
@@ -87,75 +232,48 @@
                 const snap = await getDoc(docRef);
 
                 if (snap.exists()) {
+                    if (snap.data().isLocked) return alert("❌ MAAF! Kelas ini sudah DIKUNCI oleh Guru.");
                     let listSiswaCloud = snap.data().siswaGabung || [];
                     if(!listSiswaCloud.includes(sesi.nama)) {
                         listSiswaCloud.push(sesi.nama);
                         await updateDoc(docRef, { siswaGabung: listSiswaCloud });
                     }
-
-                    listKelas.push(id);
-                    localStorage.setItem('myClasses_' + sesi.uid, JSON.stringify(listKelas));
-                    alert("Berhasil Gabung!");
-                    location.reload(); 
+                    alert("Berhasil Gabung!"); document.getElementById('input-kode').value = ''; 
                 } else { alert("Kode Kelas Tidak Ditemukan!"); }
             } catch (err) { alert("Gagal terhubung ke server!"); }
         };
 
-        // --- FUNGSI KELUAR KELAS (HAPUS KELAS) ---
         window.keluarKelas = async () => {
-            if(confirm("Yakin ingin keluar dari kelas ini? Semua tugas yang sudah dikumpul akan tetap ada di guru, tapi Anda tidak bisa melihat kelas ini lagi.")) {
+            if(confirm("Yakin ingin keluar dari kelas ini? Semua tugas akan tetap ada di guru.")) {
                 try {
-                    // 1. Hapus nama siswa dari database guru (opsional agar guru tahu siswa keluar)
                     const docRef = doc(db, "kelas", kelasAktifID);
                     const snap = await getDoc(docRef);
                     if (snap.exists()) {
                         let listSiswaCloud = snap.data().siswaGabung || [];
                         let newListSiswa = listSiswaCloud.filter(nama => nama !== sesi.nama);
                         await updateDoc(docRef, { siswaGabung: newListSiswa });
+                        alert("Berhasil keluar dari kelas.");
                     }
-
-                    // 2. Hapus kelas dari memori HP siswa
-                    listKelas = listKelas.filter(id => id !== kelasAktifID);
-                    localStorage.setItem('myClasses_' + sesi.uid, JSON.stringify(listKelas));
-                    
-                    alert("Berhasil keluar dari kelas.");
-                    location.reload(); // Refresh halaman
-                } catch (e) {
-                    alert("Terjadi kesalahan saat keluar dari kelas.");
-                }
+                } catch (e) { alert("Terjadi kesalahan."); }
             }
         };
 
         function renderTabs() {
-            const area = document.getElementById('tabs-kelas');
-            area.innerHTML = '';
+            const area = document.getElementById('tabs-kelas'); area.innerHTML = '';
+            if(listKelas.length === 0) area.innerHTML = '<p style="color:#888; font-style:italic; padding: 10px;">Belum ada kelas. Silakan gabung menggunakan kode dari guru.</p>';
             listKelas.forEach(id => {
                 let btn = document.createElement('button');
                 btn.className = 'tab-btn' + (kelasAktifID === id ? ' active' : '');
-                btn.innerText = "Kelas: " + id;
-                btn.onclick = () => bukaKonten(id);
+                btn.innerText = "📚 " + dataGlobal[id].namaKelas; 
+                btn.onclick = () => bukaKonten(id); 
                 area.appendChild(btn);
             });
         }
 
         function bukaKonten(id) {
-            kelasAktifID = id;
-            renderTabs();
-            document.getElementById('area-materi').style.display = 'block';
-            onSnapshot(doc(db, "kelas", id), (snap) => {
-                if(snap.exists()) {
-                    const data = snap.data();
-                    document.getElementById('judul-kelas-aktif').innerText = data.namaKelas;
-                    renderDaftarMateri(data.postingan || [], data.tugasTerkumpul || []);
-                } else {
-                    // Jika kelas dihapus oleh guru, keluarkan siswa otomatis
-                    listKelas = listKelas.filter(k => k !== id);
-                    localStorage.setItem('myClasses_' + sesi.uid, JSON.stringify(listKelas));
-                    document.getElementById('area-materi').style.display = 'none';
-                    renderTabs();
-                    alert("Kelas ini telah dihapus oleh Guru.");
-                }
-            });
+            kelasAktifID = id; renderTabs(); document.getElementById('area-materi').style.display = 'block';
+            const data = dataGlobal[id];
+            if(data) { document.getElementById('judul-kelas-aktif').innerText = data.namaKelas; renderDaftarMateri(data.postingan || [], data.tugasTerkumpul || []); }
         }
 
         window.kumpulTugas = async (postId, judulTugas) => {
@@ -163,71 +281,123 @@
             const btn = document.getElementById(`btn-${postId}`);
             if (fileInput.files.length === 0) return alert("Pilih file tugas dulu!");
 
-            btn.innerText = "⏳ Mengunggah..."; btn.disabled = true;
-            let fileUrl = "";
+            const fileSiswa = fileInput.files[0];
+            if (fileSiswa.size > 5 * 1024 * 1024) return alert("❌ Ukuran file maksimal 5 MB.");
 
+            btn.innerText = "⏳ Mengunggah..."; btn.disabled = true; let fileUrl = "";
             try {
-                const formData = new FormData();
-                formData.append('file', fileInput.files[0]);
+                const formData = new FormData(); formData.append('file', fileSiswa);
                 const res = await fetch('https://store1.gofile.io/uploadFile', { method: 'POST', body: formData });
-                const resJson = await res.json();
-                if (resJson.status === "ok") fileUrl = resJson.data.downloadPage;
+                const resJson = await res.json(); if (resJson.status === "ok") fileUrl = resJson.data.downloadPage;
                 
-                const docRef = doc(db, "kelas", kelasAktifID);
-                const snap = await getDoc(docRef);
+                let waktuKirim = Date.now();
+                const docRef = doc(db, "kelas", kelasAktifID); const snap = await getDoc(docRef);
                 let listTugas = snap.data().tugasTerkumpul || [];
+                listTugas.push({ postId: postId, judulTugas: judulTugas, namaSiswa: sesi.nama, link: fileUrl, nilai: "", waktuKumpul: waktuKirim });
                 
-                listTugas.push({
-                    postId: postId,
-                    judulTugas: judulTugas,
-                    namaSiswa: sesi.nama,
-                    link: fileUrl,
-                    nilai: ""
-                });
+                await updateDoc(docRef, { tugasTerkumpul: listTugas }); 
+                alert("✅ Tugas Berhasil Terkirim!");
+            } catch (err) { alert("Gagal mengirim tugas!"); } finally { btn.innerText = "Kirim Tugas Sekarang"; btn.disabled = false; }
+        };
 
-                await updateDoc(docRef, { tugasTerkumpul: listTugas });
-                alert("Tugas Berhasil Terkirim!");
-            } catch (err) { alert("Gagal mengirim tugas!"); }
-            finally { btn.innerText = "Kirim ke Guru"; btn.disabled = false; }
+        window.batalkanTugas = async (postId) => {
+            if(!confirm("Yakin ingin menarik/membatalkan pengiriman tugas ini?")) return;
+            try {
+                const docRef = doc(db, "kelas", kelasAktifID); const snap = await getDoc(docRef);
+                if (snap.exists()) {
+                    let listTugas = snap.data().tugasTerkumpul || [];
+                    let listTugasBaru = listTugas.filter(t => !(t.postId === postId && t.namaSiswa === sesi.nama));
+                    await updateDoc(docRef, { tugasTerkumpul: listTugasBaru }); alert("Tugas berhasil ditarik!");
+                }
+            } catch (err) { alert("Gagal membatalkan tugas."); }
         };
 
         function renderDaftarMateri(materi, tugasSiswa) {
             const area = document.getElementById('daftar-materi');
-            area.innerHTML = materi.length ? "" : "<p style='text-align:center; color:#999; margin-top:20px;'>Belum ada materi dari guru.</p>";
+            area.innerHTML = materi.length ? "" : "<div style='text-align:center; padding: 40px 20px;'><h3 style='color:#f8bbd0; font-size: 3rem; margin-bottom: 10px;'>📚</h3><p style='color:var(--text-muted); font-weight:600; font-size:1.1rem;'>Belum ada materi atau tugas dari guru.</p></div>";
             
             materi.forEach(p => {
                 let sudahKumpul = tugasSiswa.find(t => t.postId === p.id && t.namaSiswa === sesi.nama);
-                let nilaiTampil = sudahKumpul && sudahKumpul.nilai ? `<div class="nilai-box">Nilai: ${sudahKumpul.nilai}</div>` : '';
-                let badgeClass = "bg-" + p.tipe;
+                let nilaiTampil = sudahKumpul && sudahKumpul.nilai ? `<div class="nilai-box">${sudahKumpul.nilai} ✨</div>` : '';
+                let badgeClass = "bg-" + p.tipe; let actionHtml = '';
 
-                let actionHtml = '';
-                if (p.tipe === 'game') {
-                    actionHtml = `<br><a href="${p.deskripsi}" target="_blank" class="nav-btn" style="display:inline-block; width:auto; padding:8px 25px; margin-top:10px;">🎮 Mainkan Game / Kuis</a>`;
+                let isBaru = (Date.now() - p.id) < 86400000; 
+                let badgeBaruHtml = isBaru ? `<span class="badge-baru">🔥 BARU</span>` : '';
+
+                let infoDeadlineHtml = ''; let sisaWaktuRealtime = formatSisaWaktu(p.deadline);
+                if (p.deadline) {
+                    let tglAsli = new Date(p.deadline).toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+                    let warnaDeadline = sisaWaktuRealtime.isLate ? '#f50057' : '#ff9800';
+                    let bgDeadline = sisaWaktuRealtime.isLate ? '#ffebee' : '#fff3e0';
+                    infoDeadlineHtml = `
+                        <div style="background:${bgDeadline}; padding:15px 20px; border-radius:15px; margin-top:20px; margin-bottom:10px; border-left:5px solid ${warnaDeadline}; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                            <p style="color:var(--text-main); font-size:0.95em; font-weight:800; margin:0;">⏰ Tenggat Pengumpulan: ${tglAsli}</p>
+                            <p style="color:${warnaDeadline}; font-size:0.85em; font-weight:800; margin:5px 0 0 0;">( ${sisaWaktuRealtime.text} )</p>
+                        </div>`;
+                }
+
+                let isClosed = p.isClosed || false;
+
+                if (p.tipe === 'pengumuman') {
+                    actionHtml = '';
+                } else if (p.tipe === 'game') {
+                    actionHtml = `<br><a href="${p.deskripsi}" target="_blank" class="btn-download" style="background:linear-gradient(135deg, #ff9800, #f57c00); color:white; border:none; box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);">🎮 Mainkan Quizizz / Game</a>`;
                 } else if (p.tipe === 'materi' || p.tipe === 'soal') {
-                    actionHtml = `
-                    <div class="box-kumpul">
-                        <p style="font-size:0.85em; font-weight:bold; color:#d81b60; margin-bottom:5px;">📤 Kumpulkan Tugas Di Sini:</p>
-                        ${sudahKumpul ? 
-                            `<p style="color:#4caf50; font-weight:bold;">✅ Tugas sudah dikumpulkan</p>` : 
-                            `<input type="file" id="file-${p.id}" style="margin-bottom:10px; display:block; width:100%;">
-                             <button class="nav-btn" onclick="kumpulTugas(${p.id}, '${p.judul}')" id="btn-${p.id}" style="width:auto; padding:8px 25px;">Kirim ke Guru</button>`
+                    if (isClosed) {
+                        actionHtml = `<div class="box-kumpul" style="border-color:#f50057; background:#fff0f5;"><p style="color:#f50057; font-weight:900; font-size:1.1rem; margin:0;">🚫 Pengumpulan Ditutup oleh Guru.</p>`;
+                        if (sudahKumpul) {
+                            let infoWaktuTutup = formatWaktuDetail(sudahKumpul.waktuKumpul, p.deadline);
+                            actionHtml += `
+                                <div style="margin-top:20px; border-top: 1px dashed var(--pink-light); padding-top: 15px;">
+                                    <p style="font-size:0.9em; color:var(--text-muted); margin-bottom:15px;"><b>Status Tugas Anda:</b><br>🕒 ${infoWaktuTutup.textFull} <br><span style="color:${infoWaktuTutup.status === 'Terlambat' ? '#f50057' : '#10b981'}; font-weight:800; font-size: 1.1rem;">${infoWaktuTutup.status} ${infoWaktuTutup.textTelat}</span></p>
+                                    <a href="${sudahKumpul.link}" target="_blank" class="btn-action-tugas outline">👀 Lihat File Saya</a>
+                                </div>`;
                         }
-                    </div>`;
+                        actionHtml += `</div>`;
+                    } else {
+                        if (sudahKumpul) {
+                            let tombolTarik = (!sudahKumpul.nilai) ? `<button onclick="batalkanTugas(${p.id})" class="btn-action-tugas danger">🗑️ Tarik Tugas</button>` : `<span style="color:var(--pink-main); font-weight:900; font-size:0.95em; background:var(--bg-color); padding:12px 20px; border-radius:15px; border: 2px solid var(--pink-light);">🔒 Sudah dinilai guru</span>`;
+                            let infoWaktu = formatWaktuDetail(sudahKumpul.waktuKumpul, p.deadline);
+                            let warnaWaktu = infoWaktu.status === "Terlambat" ? "#f50057" : "#10b981";
+
+                            actionHtml = `
+                            <div class="box-kumpul">
+                                <p style="color:#10b981; font-weight:900; font-size:1.1rem; margin-bottom:10px;">✅ Tugas Berhasil Diterima</p>
+                                <p style="font-size:0.9em; color:var(--text-muted); margin-bottom:20px; border-bottom:2px dashed var(--glass-border); padding-bottom:15px;">🕒 ${infoWaktu.textFull} <br><span style="color:${warnaWaktu}; font-weight:800; font-size:1.05rem;">${infoWaktu.status} ${infoWaktu.textTelat}</span></p>
+                                <div style="display:flex; gap:15px; flex-wrap:wrap; align-items:center;">
+                                    <a href="${sudahKumpul.link}" target="_blank" class="btn-action-tugas outline">👀 Lihat File Saya</a>
+                                    ${tombolTarik}
+                                </div>
+                            </div>`;
+                        } else {
+                            let warningTelat = (sisaWaktuRealtime && sisaWaktuRealtime.isLate) ? `<p style="color:#f50057; font-size:0.85em; font-weight:800; margin-bottom:15px; background: #ffebee; padding: 10px; border-radius: 10px;">⚠️ Waktu sudah terlewat. Tugas akan ditandai "Terlambat".</p>` : '';
+                            actionHtml = `
+                            <div class="box-kumpul">
+                                <p style="font-size:1.05rem; font-weight:900; color:var(--pink-main); margin-bottom:15px;">📤 Kumpulkan Tugas Anda:</p>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px; font-weight: 500;">Format: PDF/JPG/PNG. Maksimal 5MB.</p>
+                                ${warningTelat}
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="file-${p.id}" accept=".pdf, image/png, image/jpeg, image/jpg">
+                                </div>
+                                <button class="btn-action-tugas primary" onclick="kumpulTugas(${p.id}, '${p.judul}')" id="btn-${p.id}">🚀 Kirim Tugas Sekarang</button>
+                            </div>`;
+                        }
+                    }
                 }
 
                 area.innerHTML += `
                     <div class="post-item">
-                        ${nilaiTampil}
+                        ${nilaiTampil} 
                         <span class="badge-tipe ${badgeClass}">${p.tipe}</span>
-                        <h3 style="color:#d81b60; margin-top:10px;">${p.judul}</h3>
-                        <p style="font-size:0.9em; margin: 10px 0; color:#555; white-space:pre-wrap;">${p.tipe === 'game' ? 'Silakan klik tombol di bawah untuk memulai kuis.' : p.deskripsi}</p>
-                        ${p.link ? `<a href="${p.link}" target="_blank" class="btn-download">📥 Unduh Lampiran File</a>` : ''}
+                        ${badgeBaruHtml}
+                        <h3 style="color:var(--text-dark); margin-top:20px; font-size: 1.4rem; font-weight: 900;">${p.judul}</h3>
+                        ${infoDeadlineHtml}
+                        <p style="font-size:1rem; margin: 20px 0; color:var(--text-muted); white-space:pre-wrap; line-height:1.7; font-weight: 500;">${p.tipe === 'game' ? 'Ayo uji pemahamanmu! Klik tombol di bawah untuk mulai bermain.' : p.deskripsi}</p>
+                        ${p.link ? `<a href="${p.link}" target="_blank" class="btn-download">📥 Unduh Lampiran File Tugas/Materi</a>` : ''}
                         ${actionHtml}
                     </div>`;
             });
         }
-
-        renderTabs();
     </script>
 </body>
 </html>
